@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LottoMind Data Fetcher v6 — Final working version"""
+"""LottoMind Data Fetcher v7 — Fixed Take5 column format + LottoAmerica scraping"""
 
 import json, re, sys, csv, io
 from datetime import datetime, timezone
@@ -53,11 +53,11 @@ def parse_ny(rows, n, has_spec, jackpot=""):
                         "spec":spec, "jackpot":jackpot})
     return out
 
-# ── Powerball (NY Open Data CSV — confirmed working) ─────────────────────────
+# ── Powerball ─────────────────────────────────────────────────────────────────
 def get_powerball():
     return parse_ny(ny_csv_sorted("d6yy-54nr",15), 5, True)
 
-# ── Mega Millions (Texas Lottery CSV — confirmed working) ─────────────────────
+# ── Mega Millions (Texas Lottery CSV) ─────────────────────────────────────────
 def get_megamillions():
     text = get("https://www.texaslottery.com/export/sites/lottery/Games/Mega_Millions/Winning_Numbers/megamillions.csv")
     if not text:
@@ -78,101 +78,125 @@ def get_megamillions():
     draws.sort(key=lambda x: x[0], reverse=True)
     return [d for _,d in draws[:15]]
 
-# ── NY Take 5 — scrape nylottery.org past winning numbers page ────────────────
+# ── NY Take 5 — FIXED: CSV has "Evening Winning Numbers" column with "02 05 10 15 18" format
 def get_take5():
-    # First try NY Open Data CSV (dataset dg63-4siq)
-    rows = ny_csv_sorted("dg63-4siq", 15)
-    if rows:
-        result = parse_ny(rows, 5, False)
-        if result: return result
+    rows = ny_csv_sorted("dg63-4siq", 30)  # get more rows since we need recent ones
+    if not rows:
+        return []
 
-    # Fallback: scrape nylottery.org archive page for current year
-    html = get("https://www.nylottery.org/take-5/past-winning-numbers")
-    if not html: return []
+    print(f"  Take5 CSV columns: {list(rows[0].keys())[:6] if rows else 'none'}")
 
-    out = []
-    # Pattern: date like "01/02/2026" then 5 numbers
-    matches = re.findall(
-        r'(\d{2}/\d{2}/20\d{2})'
-        r'(?:.*?)'
-        r'(\d{1,2})[^\d]+(\d{1,2})[^\d]+(\d{1,2})[^\d]+(\d{1,2})[^\d]+(\d{1,2})',
-        html, re.DOTALL
-    )
+    out  = []
     seen = set()
-    for m in matches:
-        dd   = m[0]
-        nums = sorted([int(m[i]) for i in range(1,6)])
-        if dd not in seen and len(set(nums))==5 and all(1<=n<=39 for n in nums):
-            seen.add(dd)
-            out.append({"date":fmt(dd),"nums":nums,"spec":None,"jackpot":""})
-        if len(out)>=15: break
+    for r in rows:
+        dd = r.get("Draw Date","").strip()
+        if not dd or dd in seen: continue
+
+        # Try Evening numbers first, then Midday
+        for col in ["Evening Winning Numbers", "Midday Winning Numbers",
+                    "Winning Numbers", "winning_numbers"]:
+            wn = str(r.get(col,"")).strip()
+            if not wn: continue
+            # Format is "02 05 10 15 18" — space separated within the cell
+            nums = sorted([int(x) for x in wn.split() if x.isdigit() and 1<=int(x)<=39])
+            if len(nums) == 5:
+                seen.add(dd)
+                out.append({"date":fmt(dd), "nums":nums, "spec":None, "jackpot":""})
+                break  # one entry per date (evening preferred)
+
+        if len(out) >= 15: break
     return out
 
-# ── NY Lotto (NY Open Data CSV — confirmed working) ───────────────────────────
+# ── NY Lotto ──────────────────────────────────────────────────────────────────
 def get_ny_lotto():
     return parse_ny(ny_csv_sorted("6nbc-h7bj",15), 6, False)
 
-# ── Millionaire for Life (NY Open Data CSV — confirmed working) ───────────────
+# ── Millionaire for Life ──────────────────────────────────────────────────────
 def get_millionaire():
     return parse_ny(ny_csv_sorted("a4w9-a3tp",15), 5, False, "$1M/year")
 
-# ── Lotto America — beatlottery.com CSV download ──────────────────────────────
+# ── Lotto America — scrape lottoamerica.com/archive/2026 ──────────────────────
 def get_lotto_america():
-    # beatlottery.com has direct CSV download for Lotto America
     year = datetime.now().year
-    csv_url = f"https://www.beatlottery.com/lotto-america/draw-history/year/{year}/csv"
-    text = get(csv_url)
-    if not text:
-        csv_url2 = "https://www.beatlottery.com/lotto-america/draw-history/csv"
-        text = get(csv_url2)
-    if text and "," in text:
-        rows = list(csv.DictReader(io.StringIO(text)))
-        out  = []
-        for r in rows:
-            # Typical columns: Date, N1, N2, N3, N4, N5, StarBall (or similar)
-            dd   = r.get("Date","") or r.get("Draw Date","") or r.get("date","")
-            keys = list(r.keys())
-            # Find number columns
-            num_cols = [k for k in keys if re.search(r'\bN\d\b|ball|number', k, re.I) and k != dd]
-            star_col = next((k for k in keys if "star" in k.lower()), None)
-            try:
-                nums = sorted([int(r[k]) for k in num_cols[:5] if r.get(k,"").strip().isdigit()])
-                spec = int(r[star_col]) if star_col and r.get(star_col,"").strip().isdigit() else None
-                if len(nums)==5 and dd:
-                    out.append({"date":fmt(dd),"nums":nums,"spec":spec,"jackpot":""})
-            except: continue
-        if out:
-            # Sort newest first
-            out.sort(key=lambda x: datetime.strptime(x["date"], "%b %d, %Y")
-                     if len(x["date"])>8 else datetime.min, reverse=True)
-            return out[:15]
-
-    # Fallback: scrape lottoamerica.com archive
     html = get(f"https://www.lottoamerica.com/archive/{year}")
-    if not html: return []
+    if not html:
+        return []
+
+    # The page has draw entries with dates and numbers
+    # Pattern from the page structure: look for date links and numbers nearby
+    # dates appear as "Monday 27th April 2026" or "04/27/2026" or similar
+    # numbers appear as individual digits in spans/tds
+
+    # Strategy: find all number sequences of exactly 5 numbers (1-52) + 1 star ball (1-10)
+    # near date patterns
+
     out  = []
     seen = set()
-    matches = re.findall(
-        r'(\d{1,2}/\d{1,2}/20\d{2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\.?\s+\d{1,2},?\s+20\d{2})'
-        r'.{0,400}?'
-        r'(\d{1,2})\D{1,8}(\d{1,2})\D{1,8}(\d{1,2})\D{1,8}(\d{1,2})\D{1,8}(\d{1,2})'
-        r'(?:\D{1,8}(\d{1,2}))?',
-        html, re.DOTALL|re.IGNORECASE
-    )
-    for m in matches:
-        dd   = m[0].strip()
-        nums = sorted([int(m[i]) for i in range(1,6)])
-        spec = int(m[6]) if m[6] and 1<=int(m[6])<=10 else None
-        if dd not in seen and len(set(nums))==5 and all(1<=n<=52 for n in nums):
-            seen.add(dd)
-            out.append({"date":fmt(dd),"nums":nums,"spec":spec,"jackpot":""})
-        if len(out)>=15: break
-    return out
+
+    # Try to find date + number blocks
+    # lottoamerica.com uses format like: href="/results/2026-04-27" then numbers
+    date_links = re.findall(r'href="[^"]*?/results?/(\d{4}-\d{2}-\d{2})"', html)
+    if date_links:
+        print(f"  Found {len(date_links)} date links on lottoamerica.com")
+        # For each date, find the numbers near it in the HTML
+        for date_str in date_links[:20]:
+            if date_str in seen: continue
+            # Find position of this date in HTML
+            pos = html.find(date_str)
+            if pos == -1: continue
+            # Look at the 500 chars after the date link
+            snippet = html[pos:pos+500]
+            # Find all 1-2 digit numbers in that snippet
+            all_nums = [int(x) for x in re.findall(r'\b(\d{1,2})\b', snippet)
+                       if 1 <= int(x) <= 52]
+            if len(all_nums) >= 5:
+                main = sorted(all_nums[:5])
+                # Star ball: 1-10
+                star_candidates = [x for x in all_nums[5:10] if 1<=x<=10]
+                spec = star_candidates[0] if star_candidates else None
+                if len(set(main))==5:
+                    seen.add(date_str)
+                    out.append({"date":fmt(date_str), "nums":main,
+                                "spec":spec, "jackpot":""})
+    else:
+        # Fallback: find numbers in table rows
+        # Look for rows with exactly 5 numbers + optional star ball
+        print("  No date links found, trying table scrape")
+        # Find all sequences of 5-6 small numbers separated by common delimiters
+        rows_html = re.findall(
+            r'<tr[^>]*>(.{50,600}?)</tr>', html, re.DOTALL
+        )
+        date_re = re.compile(r'(\d{1,2}/\d{1,2}/20\d{2}|20\d{2}-\d{2}-\d{2})')
+        for row in rows_html:
+            date_m = date_re.search(row)
+            if not date_m: continue
+            dd = date_m.group(1)
+            if dd in seen: continue
+            nums = [int(x) for x in re.findall(r'\b(\d{1,2})\b', row)
+                   if 1<=int(x)<=52]
+            if len(nums)>=5:
+                main = sorted(nums[:5])
+                spec_cands = [x for x in nums[5:8] if 1<=x<=10]
+                if len(set(main))==5:
+                    seen.add(dd)
+                    out.append({"date":fmt(dd),"nums":main,
+                                "spec":spec_cands[0] if spec_cands else None,
+                                "jackpot":""})
+            if len(out)>=15: break
+
+    # Sort newest first
+    def parse_dt(item):
+        try: return datetime.strptime(item["date"], "%b %-d, %Y")
+        except:
+            try: return datetime.strptime(item["date"], "%b %d, %Y")
+            except: return datetime.min
+    out.sort(key=parse_dt, reverse=True)
+    return out[:15]
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
     ts = datetime.now(timezone.utc)
-    print(f"LottoMind Fetcher v6 | {ts.strftime('%Y-%m-%d %H:%M UTC')}")
+    print(f"LottoMind Fetcher v7 | {ts.strftime('%Y-%m-%d %H:%M UTC')}")
 
     existing = {}
     try:
@@ -204,15 +228,14 @@ def main():
             print(f"ERROR: {e}", file=sys.stderr)
 
     results["_updated"] = ts.strftime("%Y-%m-%dT%H:%M:%SZ")
-    results["_source"]  = "GitHub Actions daily fetch — v6"
+    results["_source"]  = "GitHub Actions daily fetch — v7"
 
     with open("results.json", "w") as f:
         json.dump(results, f, indent=2)
 
     live  = [k for k,v in results.items() if not k.startswith("_") and isinstance(v,list) and v]
     total = sum(len(v) for k,v in results.items() if isinstance(v,list))
-    print(f"\nDone. {len(live)} games with data: {', '.join(live)}")
-    print(f"Total draws: {total} | File: {len(json.dumps(results))} bytes")
+    print(f"\nDone. {len(live)} games: {', '.join(live)} | {total} total draws")
 
 if __name__ == "__main__":
     main()
