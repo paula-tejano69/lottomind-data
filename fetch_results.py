@@ -1,190 +1,211 @@
 #!/usr/bin/env python3
 """
-LottoMind Data Fetcher
+LottoMind Data Fetcher — v2
 Runs daily via GitHub Actions.
-Fetches results from:
-  - NY Open Data API (Powerball, Mega Millions) — free, no key
-  - powerball.com     (Lotto America, 2by2, Millionaire for Life)
-  - nhlottery.com     (Tri-State Megabucks, Gimme 5)
-  - Individual state lottery sites for state games
-Saves everything to results.json (read by LottoMind frontend)
+Fixed endpoints for all games.
 """
 
-import json, re, sys
+import json, re, sys, csv, io
 from datetime import datetime, timezone
 from urllib.request import urlopen, Request
-from urllib.error import URLError
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; LottoMindBot/1.0)",
-    "Accept": "application/json, text/html, */*",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "application/json, text/csv, */*",
 }
 
-def fetch(url, as_json=True):
+def fetch_json(url):
     try:
         req = Request(url, headers=HEADERS)
-        with urlopen(req, timeout=15) as r:
-            body = r.read().decode("utf-8", errors="ignore")
-            return json.loads(body) if as_json else body
+        with urlopen(req, timeout=20) as r:
+            return json.loads(r.read().decode("utf-8", errors="ignore"))
     except Exception as e:
-        print(f"  WARN fetch({url}): {e}", file=sys.stderr)
+        print(f"  warn json({url[:55]}): {e}", file=sys.stderr)
         return None
 
-def fmt_date(iso):
-    """2026-04-29T00:00:00.000 → Apr 29, 2026"""
+def fetch_csv(url):
     try:
-        d = datetime.fromisoformat(iso[:10])
+        req = Request(url, headers=HEADERS)
+        with urlopen(req, timeout=20) as r:
+            return r.read().decode("utf-8", errors="ignore")
+    except Exception as e:
+        print(f"  warn csv({url[:55]}): {e}", file=sys.stderr)
+        return None
+
+def fetch_html(url):
+    try:
+        req = Request(url, headers=HEADERS)
+        with urlopen(req, timeout=20) as r:
+            return r.read().decode("utf-8", errors="ignore")
+    except Exception as e:
+        print(f"  warn html({url[:55]}): {e}", file=sys.stderr)
+        return None
+
+def fmt_date(s):
+    try:
+        d = datetime.fromisoformat(str(s)[:10])
         return d.strftime("%b %-d, %Y")
     except:
-        return iso[:10]
+        return str(s)[:10]
 
-# ── NY OPEN DATA ──────────────────────────────────────────────────────────────
-def fetch_ny(endpoint, limit=15):
-    url = f"https://data.ny.gov/resource/{endpoint}.json?$order=draw_date+DESC&$limit={limit}"
-    return fetch(url) or []
-
-def parse_ny_powerball(rows):
-    out = []
-    for r in rows:
-        parts = str(r.get("winning_numbers","")).split()
-        nums = [int(x) for x in parts[:5] if x.isdigit()]
-        pb   = int(parts[5]) if len(parts) > 5 and parts[5].isdigit() else 0
-        if len(nums) == 5 and pb:
-            out.append({"date": fmt_date(r["draw_date"]), "nums": nums, "spec": pb, "jackpot": ""})
-    return out
-
-def parse_ny_megamillions(rows):
-    out = []
-    for r in rows:
-        parts = str(r.get("winning_numbers","")).split()
-        nums = [int(x) for x in parts[:5] if x.isdigit()]
-        mb   = int(parts[5]) if len(parts) > 5 and parts[5].isdigit() else 0
-        if len(nums) == 5 and mb:
-            out.append({"date": fmt_date(r["draw_date"]), "nums": nums, "spec": mb, "jackpot": ""})
-    return out
-
-# ── POWERBALL.COM (JSON endpoint) ─────────────────────────────────────────────
-def fetch_powerball_com(game_code, limit=10):
-    """
-    powerball.com has a public JSON endpoint for draw results.
-    game_code examples: lotto-america, 2by2, millionaire-for-life
-    """
-    url = f"https://www.powerball.com/api/v1/drawings/powerball?limit={limit}&game={game_code}"
-    data = fetch(url)
-    if not data:
-        # Try alternate endpoint format
-        url2 = f"https://www.powerball.com/api/v1/drawings/{game_code}?limit={limit}"
-        data = fetch(url2)
-    return data
-
-def parse_lotto_america(data):
-    if not data or not isinstance(data, list):
+def ny_csv(dataset_id, limit=15):
+    """Download CSV from NY Open Data - more reliable than JSON API"""
+    url = f"https://data.ny.gov/api/views/{dataset_id}/rows.csv?accessType=DOWNLOAD"
+    text = fetch_csv(url)
+    if not text:
         return []
-    out = []
-    for r in data[:10]:
-        try:
-            nums = [int(x) for x in str(r.get("numbersDrawn","")).split(",") if x.strip().isdigit()][:5]
-            spec = int(str(r.get("starBall","0")).strip()) if r.get("starBall") else 0
-            date = r.get("drawDate","")
-            if nums:
-                out.append({"date": date, "nums": sorted(nums), "spec": spec, "jackpot": r.get("jackpot","")})
-        except:
-            pass
-    return out
+    rows = list(csv.DictReader(io.StringIO(text)))
+    # Sort newest first
+    for date_field in ["Draw Date", "draw_date"]:
+        if rows and date_field in rows[0]:
+            try:
+                rows.sort(key=lambda r: r.get(date_field,""), reverse=True)
+            except:
+                pass
+            break
+    return rows[:limit]
 
-# ── SCRAPE HTML fallback ──────────────────────────────────────────────────────
-def scrape_numbers(html, pattern):
-    """Generic regex scraper for number sequences in HTML."""
-    matches = re.findall(pattern, html or "")
-    return matches
+def ny_json(dataset_id, limit=15):
+    """Socrata JSON API fallback"""
+    url = f"https://data.ny.gov/resource/{dataset_id}.json?$limit={limit}&$order=draw_date+DESC"
+    return fetch_json(url) or []
 
-# ── STATE LOTTERY SCRAPERS ────────────────────────────────────────────────────
-# Each state function returns list of {date, nums, spec, jackpot}
-# We only implement the most popular / reliable ones
-
-def fetch_ny_take5():
-    rows = fetch_ny("dg63-4siq", 15)  # Take 5 dataset on NY Open Data
+def parse_ny_5ball_spec(rows, main_count=5):
     out = []
     for r in rows:
-        parts = str(r.get("winning_numbers","")).split()
-        nums = sorted([int(x) for x in parts[:5] if x.isdigit()])
-        if len(nums) == 5:
-            out.append({"date": fmt_date(r["draw_date"]), "nums": nums, "spec": None, "jackpot": ""})
+        wn    = str(r.get("Winning Numbers", r.get("winning_numbers", ""))).strip()
+        parts = wn.split()
+        nums  = [int(x) for x in parts[:main_count] if x.isdigit()]
+        spec  = int(parts[main_count]) if len(parts) > main_count and parts[main_count].isdigit() else 0
+        dd    = r.get("Draw Date", r.get("draw_date", ""))
+        if len(nums) == main_count and spec:
+            out.append({"date": fmt_date(dd), "nums": nums, "spec": spec, "jackpot": ""})
     return out
+
+def parse_ny_6ball(rows):
+    out = []
+    for r in rows:
+        wn    = str(r.get("Winning Numbers", r.get("winning_numbers", ""))).strip()
+        parts = wn.split()
+        nums  = sorted([int(x) for x in parts[:6] if x.isdigit()])
+        bonus = int(parts[6]) if len(parts) > 6 and parts[6].isdigit() else None
+        dd    = r.get("Draw Date", r.get("draw_date", ""))
+        if len(nums) == 6:
+            out.append({"date": fmt_date(dd), "nums": nums, "spec": bonus, "jackpot": ""})
+    return out
+
+def parse_ny_5ball_nospec(rows):
+    out = []
+    for r in rows:
+        wn    = str(r.get("Winning Numbers", r.get("winning_numbers", ""))).strip()
+        parts = wn.split()
+        nums  = sorted([int(x) for x in parts[:5] if x.isdigit()])
+        dd    = r.get("Draw Date", r.get("draw_date", ""))
+        if len(nums) == 5:
+            out.append({"date": fmt_date(dd), "nums": nums, "spec": None, "jackpot": ""})
+    return out
+
+# ── INDIVIDUAL FETCHERS ───────────────────────────────────────────────────────
+
+def fetch_powerball():
+    rows = ny_csv("d6yy-54nr") or ny_json("d6yy-54nr")
+    return parse_ny_5ball_spec(rows, 5)
+
+def fetch_megamillions():
+    rows = ny_csv("5xaw-6ayf") or ny_json("5xaw-6ayf")
+    return parse_ny_5ball_spec(rows, 5)
+
+def fetch_take5():
+    rows = ny_csv("dg63-4siq") or ny_json("dg63-4siq")
+    return parse_ny_5ball_nospec(rows)
 
 def fetch_ny_lotto():
-    rows = fetch_ny("6nbc-h7bj", 10)
+    rows = ny_csv("6nbc-h7bj") or ny_json("6nbc-h7bj")
+    return parse_ny_6ball(rows)
+
+def fetch_millionaire():
+    rows = ny_csv("a4w9-a3tp") or ny_json("a4w9-a3tp")
     out = []
     for r in rows:
-        parts = str(r.get("winning_numbers","")).split()
-        nums = sorted([int(x) for x in parts[:6] if x.isdigit()])
-        bonus = int(parts[6]) if len(parts) > 6 and parts[6].isdigit() else 0
-        if len(nums) == 6:
-            out.append({"date": fmt_date(r["draw_date"]), "nums": nums, "spec": bonus if bonus else None, "jackpot": ""})
+        wn    = str(r.get("Winning Numbers", r.get("winning_numbers", ""))).strip()
+        parts = wn.split()
+        nums  = sorted([int(x) for x in parts[:5] if x.isdigit()])
+        spec  = int(parts[5]) if len(parts) > 5 and parts[5].isdigit() else None
+        dd    = r.get("Draw Date", r.get("draw_date", ""))
+        if len(nums) == 5:
+            out.append({"date": fmt_date(dd), "nums": nums, "spec": spec, "jackpot": "$1M/year"})
+    return out
+
+def fetch_lotto_america():
+    """Try lottoamerica.com results page"""
+    html = fetch_html("https://www.lottoamerica.com/numbers/lotto-america")
+    if not html:
+        return []
+    out = []
+    # Find draw result blocks - look for date + numbers pattern
+    # lottoamerica.com shows results in a consistent table format
+    date_re = r'((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2},?\s+202\d)'
+    rows = re.findall(
+        date_re + r'.{10,400}?(?:winning numbers?|results?)?(.{20,150}?)(?=(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2}|$)',
+        html, re.DOTALL | re.IGNORECASE
+    )
+    for date_str, num_str in rows[:10]:
+        nums = [int(x) for x in re.findall(r'\b([1-9]|[1-4]\d|5[012])\b', num_str)]
+        if len(nums) >= 5:
+            main = sorted(nums[:5])
+            spec = nums[5] if len(nums) > 5 and 1 <= nums[5] <= 10 else None
+            out.append({"date": date_str.strip(), "nums": main, "spec": spec, "jackpot": ""})
     return out
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
-    print("LottoMind Data Fetcher — " + datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
-    results = {}
+    ts = datetime.now(timezone.utc)
+    print(f"LottoMind Fetcher v2 | {ts.strftime('%Y-%m-%d %H:%M UTC')}")
 
-    # 1. POWERBALL via NY Open Data
-    print("Fetching Powerball...")
-    pb_rows = fetch_ny("d6yy-54nr", 15)
-    results["powerball"] = parse_ny_powerball(pb_rows)
-    print(f"  Got {len(results['powerball'])} draws")
+    # Load existing results.json to preserve static data
+    existing = {}
+    try:
+        with open("results.json") as f:
+            existing = json.load(f)
+        print(f"Loaded existing results.json")
+    except:
+        print("No existing results.json - starting fresh")
 
-    # 2. MEGA MILLIONS via NY Open Data
-    print("Fetching Mega Millions...")
-    mm_rows = fetch_ny("5xaw-6ayf", 15)
-    results["megamillions"] = parse_ny_megamillions(mm_rows)
-    print(f"  Got {len(results['megamillions'])} draws")
+    results = dict(existing)  # start with everything we have
 
-    # 3. NY TAKE 5 via NY Open Data
-    print("Fetching NY Take 5...")
-    results["ny_take5"] = fetch_ny_take5()
-    print(f"  Got {len(results['ny_take5'])} draws")
+    fetchers = [
+        ("powerball",          "Powerball",           fetch_powerball),
+        ("megamillions",       "Mega Millions",        fetch_megamillions),
+        ("ny_take5",           "NY Take 5",            fetch_take5),
+        ("ny_lotto",           "NY Lotto",             fetch_ny_lotto),
+        ("millionaireforlife", "Millionaire for Life", fetch_millionaire),
+        ("lottoamerica",       "Lotto America",        fetch_lotto_america),
+    ]
 
-    # 4. NY LOTTO via NY Open Data
-    print("Fetching NY Lotto...")
-    results["ny_lotto"] = fetch_ny_lotto()
-    print(f"  Got {len(results['ny_lotto'])} draws")
-
-    # 5. LOTTO AMERICA via powerball.com API
-    print("Fetching Lotto America...")
-    la_data = fetch_powerball_com("lotto-america")
-    results["lottoamerica"] = parse_lotto_america(la_data) if la_data else []
-    print(f"  Got {len(results['lottoamerica'])} draws")
-
-    # 6. MILLIONAIRE FOR LIFE via NY Open Data (dataset: a4w9-a3tp)
-    print("Fetching Millionaire for Life...")
-    mfl_rows = fetch_ny("a4w9-a3tp", 10)
-    mfl_out = []
-    for r in mfl_rows:
+    ok, empty = [], []
+    for key, name, fn in fetchers:
+        print(f"\n[{name}]", end=" ")
         try:
-            parts = str(r.get("winning_numbers","")).split()
-            nums = sorted([int(x) for x in parts[:5] if x.isdigit()])
-            spec = int(parts[5]) if len(parts) > 5 and parts[5].isdigit() else 0
-            if nums:
-                mfl_out.append({"date": fmt_date(r["draw_date"]), "nums": nums, "spec": spec or None, "jackpot": "$1M/year"})
-        except:
-            pass
-    results["millionaireforlife"] = mfl_out
-    print(f"  Got {len(results['millionaireforlife'])} draws")
+            data = fn()
+            if data:
+                results[key] = data
+                print(f"{len(data)} draws — latest: {data[0]['date']}")
+                ok.append(key)
+            else:
+                print("empty — keeping existing data")
+                empty.append(key)
+        except Exception as e:
+            print(f"ERROR: {e}")
+            empty.append(key)
 
-    # 7. Mark last updated
-    results["_updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    results["_updated"] = ts.strftime("%Y-%m-%dT%H:%M:%SZ")
     results["_source"]  = "GitHub Actions daily fetch"
 
-    # Write output
-    out_path = "results.json"
-    with open(out_path, "w") as f:
+    with open("results.json", "w") as f:
         json.dump(results, f, indent=2)
-    print(f"\nSaved {out_path} ({len(json.dumps(results))} bytes)")
 
-    # Report coverage
-    covered = [k for k,v in results.items() if not k.startswith("_") and isinstance(v,list) and len(v) > 0]
-    print(f"Games with data: {len(covered)} — {', '.join(covered)}")
+    total = sum(len(v) for k, v in results.items() if isinstance(v, list))
+    print(f"\nDone. Live: {ok} | Static: {empty} | Total draws: {total}")
 
 if __name__ == "__main__":
     main()
