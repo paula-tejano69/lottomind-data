@@ -1,192 +1,174 @@
 #!/usr/bin/env python3
-"""LottoMind Data Fetcher v4 — Uses megamillions.com + NY Open Data CSV"""
+"""LottoMind Data Fetcher v5 — Texas Lottery CSV for MM, NY Open Data for rest"""
 
 import json, re, sys, csv, io
 from datetime import datetime, timezone
 from urllib.request import urlopen, Request
 
-UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-H  = {"User-Agent": UA, "Accept": "text/html,application/json,text/csv,*/*", "Accept-Language": "en-US,en;q=0.9"}
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+H  = {"User-Agent": UA, "Accept": "text/html,text/csv,application/json,*/*"}
 
-def get_url(url, timeout=25):
+def get(url, timeout=25):
     try:
         req = Request(url, headers=H)
         with urlopen(req, timeout=timeout) as r:
             return r.read().decode("utf-8", errors="ignore")
     except Exception as e:
-        print(f"  FAIL {url[:55]}: {e}", file=sys.stderr)
-        return ""
+        print(f"  FAIL {url[:60]}: {e}", file=sys.stderr); return ""
 
 def fmt(s):
     s = str(s).strip()
-    for p in ["%m/%d/%Y","%Y-%m-%dT%H:%M:%S.%f","%Y-%m-%d","%B %d, %Y","%b %d, %Y"]:
-        try: return datetime.strptime(s[:len(p)+4].strip(), p).strftime("%b %-d, %Y")
+    for p in ["%m/%d/%Y","%Y-%m-%dT%H:%M:%S.%f","%Y-%m-%d","%B %d, %Y","%b %d, %Y","%b %-d, %Y"]:
+        try: return datetime.strptime(s[:20].strip(), p).strftime("%b %-d, %Y")
         except: pass
     try: return datetime.fromisoformat(s[:10]).strftime("%b %-d, %Y")
     except: return s
 
-# ── NY Open Data CSV (most reliable for PB, NY Lotto, MFL) ───────────────────
+# ── NY Open Data CSV ──────────────────────────────────────────────────────────
 def ny_csv(dsid, limit=15):
-    text = get_url(f"https://data.ny.gov/api/views/{dsid}/rows.csv?accessType=DOWNLOAD")
+    text = get(f"https://data.ny.gov/api/views/{dsid}/rows.csv?accessType=DOWNLOAD")
     if not text: return []
     rows = list(csv.DictReader(io.StringIO(text)))
     date_col = next((k for k in (rows[0].keys() if rows else []) if "date" in k.lower()), None)
     if date_col:
         def dt(r):
-            try: return datetime.strptime(r[date_col].strip(), "%m/%d/%Y")
-            except:
-                try: return datetime.fromisoformat(r[date_col][:10])
-                except: return datetime.min
+            v = r.get(date_col,"").strip()
+            for p in ["%m/%d/%Y","%Y-%m-%d"]:
+                try: return datetime.strptime(v, p)
+                except: pass
+            return datetime.min
         rows.sort(key=dt, reverse=True)
     return rows[:limit]
 
-def parse_ny(rows, n_main, has_spec, jackpot_val=""):
+def parse_ny(rows, n, has_spec, jackpot=""):
     out = []
     for r in rows:
         wn    = str(r.get("Winning Numbers", r.get("winning_numbers",""))).strip()
         parts = wn.split()
-        nums  = [int(x) for x in parts[:n_main] if x.isdigit() and int(x)>0]
-        spec  = int(parts[n_main]) if has_spec and len(parts)>n_main and parts[n_main].isdigit() else None
+        nums  = [int(x) for x in parts[:n] if x.isdigit() and int(x)>0]
+        spec  = int(parts[n]) if has_spec and len(parts)>n and parts[n].isdigit() else None
         dd    = r.get("Draw Date", r.get("draw_date",""))
-        if len(nums)==n_main and (spec is not None or not has_spec):
-            out.append({"date":fmt(dd),"nums":sorted(nums) if n_main>5 else nums,"spec":spec,"jackpot":jackpot_val})
+        if len(nums)==n and (spec or not has_spec):
+            out.append({"date":fmt(dd), "nums":sorted(nums) if n>5 else nums, "spec":spec, "jackpot":jackpot})
     return out
 
-# ── Mega Millions — scrape megamillions.com ──────────────────────────────────
+# ── Mega Millions — Texas Lottery CSV (direct download, no auth, no CORS) ────
 def get_megamillions():
-    html = get_url("https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx")
-    if not html:
-        # fallback: try NY CSV
-        rows = ny_csv("5xaw-6ayf", 15)
-        return parse_ny(rows, 5, True)
-
-    out = []
-    # Pattern from megamillions.com HTML:
-    # date like "5/1/2026" followed by numbers in spans/divs
-    # Their page renders: "DRAW DATE WINNING NUMBERS MEGAPLIER"
-    # e.g. "16 · 21 · 27 · 41 · 61 · 24"
-    
-    # Find date + number groups
-    # The page has data like: "May\n1\n2026" then balls "16 21 27 41 61" + megaball "24"
-    
-    # Try JSON endpoint first (their internal API)
-    json_urls = [
-        "https://www.megamillions.com/cmspages/getwinningnumbersajax.aspx?startDate=01/01/2026&endDate=12/31/2026&numbers=undefined",
-        "https://www.megamillions.com/cmspages/getwinningnumbersajax.aspx?startDate=03/01/2026&endDate=05/31/2026&numbers=undefined",
-    ]
-    for jurl in json_urls:
-        jtext = get_url(jurl)
-        if jtext and "[" in jtext:
+    # Texas Lottery provides a direct CSV download for Mega Millions
+    # Format: Game Name, Month, Day, Year, N1, N2, N3, N4, N5, Mega Ball, Megaplier
+    text = get("https://www.texaslottery.com/export/sites/lottery/Games/Mega_Millions/Winning_Numbers/megamillions.csv")
+    if not text:
+        # Fallback: NY Open Data JSON Socrata API
+        text = get("https://data.ny.gov/resource/5xaw-6ayf.json?$limit=15&$order=draw_date+DESC")
+        if text:
             try:
-                data = json.loads(jtext)
-                if isinstance(data, list) and data:
-                    for item in data[:15]:
-                        dd   = item.get("DrawDate","")
-                        nums = [item.get(f"N{i}",0) for i in range(1,6)]
-                        mb   = item.get("MBall",0) or item.get("N6",0)
-                        if all(n>0 for n in nums) and mb:
-                            out.append({"date":fmt(dd),"nums":nums,"spec":int(mb),"jackpot":""})
-                    if out:
-                        print(f"  Got {len(out)} draws from MM JSON API")
-                        return out
+                data = json.loads(text)
+                return parse_ny(data, 5, True)
             except: pass
+        return []
 
-    # Scrape HTML: look for number sequences near dates
-    # megamillions.com renders: Month Day Year then balls
-    pattern = (
-        r'(\d{1,2}/\d{1,2}/20\d{2})'   # date
-        r'.{0,200}?'
-        r'(\d{1,2})\D+(\d{1,2})\D+(\d{1,2})\D+(\d{1,2})\D+(\d{1,2})'  # 5 white balls
-        r'\D+(\d{1,2})'                  # mega ball
-    )
-    matches = re.findall(pattern, html, re.DOTALL)
-    for m in matches[:15]:
-        dd   = m[0]
-        nums = [int(m[i]) for i in range(1,6)]
-        mb   = int(m[6])
-        if all(1<=n<=70 for n in nums) and 1<=mb<=25:
-            out.append({"date":fmt(dd),"nums":sorted(nums),"spec":mb,"jackpot":""})
-    
-    if not out:
-        # Last resort: NY CSV
-        rows = ny_csv("5xaw-6ayf", 15)
-        out = parse_ny(rows, 5, True)
-    
-    return out
+    rows = list(csv.reader(io.StringIO(text)))
+    if not rows: return []
 
-# ── NY Take 5 — scrape nylottery.org ─────────────────────────────────────────
+    # Texas CSV format — newest entries are at the END, so reverse
+    rows.reverse()
+    out = []
+    for row in rows:
+        try:
+            # Skip header rows
+            if not row or not row[0].strip().lstrip("0123456789").strip(): continue
+            # Format: Game, Month, Day, Year, N1, N2, N3, N4, N5, MegaBall, Megaplier
+            if len(row) < 10: continue
+            # Try to parse month/day/year
+            month, day, year = row[1].strip(), row[2].strip(), row[3].strip()
+            if not year.isdigit() or int(year) < 2020: continue
+            nums = sorted([int(row[i].strip()) for i in range(4,9) if row[i].strip().isdigit()])
+            mb   = int(row[9].strip()) if row[9].strip().isdigit() else 0
+            if len(nums)==5 and mb:
+                dt = datetime(int(year), int(month), int(day))
+                out.append({"date": dt.strftime("%b %-d, %Y"), "nums": nums, "spec": mb, "jackpot": ""})
+        except: continue
+
+    # Already reversed so newest is first — take top 15
+    return out[:15]
+
+# ── NY Take 5 — try NY Open Data JSON (Socrata) which has different auth than CSV ─
 def get_take5():
-    # First try NY CSV
-    rows = ny_csv("dg63-4siq", 15)
-    if rows:
-        return parse_ny(rows, 5, False)
-    
-    # Fallback: nylottery.org
-    html = get_url("https://www.nylottery.org/take-5/past-winning-numbers")
-    if not html: return []
-    
-    out = []
-    # Find date + 5 numbers patterns
-    matches = re.findall(
-        r'(\d{1,2}/\d{1,2}/20\d{2}).{0,200}?'
-        r'(\d{1,2})\D+(\d{1,2})\D+(\d{1,2})\D+(\d{1,2})\D+(\d{1,2})',
-        html, re.DOTALL
-    )
-    for m in matches[:15]:
-        dd   = m[0]
-        nums = sorted([int(m[i]) for i in range(1,6)])
-        if all(1<=n<=39 for n in nums):
-            out.append({"date":fmt(dd),"nums":nums,"spec":None,"jackpot":""})
-    return out
+    # Try Socrata JSON first
+    text = get("https://data.ny.gov/resource/dg63-4siq.json?$limit=15&$order=draw_date+DESC")
+    if text:
+        try:
+            data = json.loads(text)
+            if data:
+                return parse_ny(data, 5, False)
+        except: pass
 
-# ── Lotto America — scrape from lottoamerica.com ─────────────────────────────
+    # Try CSV download
+    rows = ny_csv("dg63-4siq", 15)
+    if rows: return parse_ny(rows, 5, False)
+
+    # Fallback: nylottery.org JSON API (unofficial)
+    text = get("https://www.nylottery.org/api/1.0/past_winning_numbers?game=take5&count=15")
+    if text:
+        try:
+            data = json.loads(text)
+            out = []
+            for item in (data.get("past_winning_numbers") or data if isinstance(data, list) else []):
+                dd   = item.get("draw_date", item.get("date",""))
+                wn   = item.get("winning_numbers","")
+                nums = sorted([int(x) for x in str(wn).split() if x.isdigit() and int(x)>0])[:5]
+                if len(nums)==5:
+                    out.append({"date":fmt(dd),"nums":nums,"spec":None,"jackpot":""})
+            if out: return out
+        except: pass
+    return []
+
+# ── Lotto America — lottoamerica.com JSON/CSV ─────────────────────────────────
 def get_lotto_america():
-    html = get_url("https://www.lottoamerica.com/numbers/lotto-america")
-    if not html:
-        html = get_url("https://www.lottoamerica.com/")
-    if not html: return []
-    
-    out = []
-    # Look for dates and number groups in HTML
-    matches = re.findall(
-        r'(\d{1,2}/\d{1,2}/20\d{2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\.?\s+\d{1,2},?\s+20\d{2})'
-        r'.{0,300}?'
-        r'(\d{1,2})\D{1,5}(\d{1,2})\D{1,5}(\d{1,2})\D{1,5}(\d{1,2})\D{1,5}(\d{1,2})',
-        html, re.DOTALL | re.IGNORECASE
-    )
-    seen_dates = set()
-    for m in matches[:15]:
-        dd   = m[0].strip()
-        nums = sorted([int(m[i]) for i in range(1,6)])
-        if len(set(nums))==5 and all(1<=n<=52 for n in nums) and dd not in seen_dates:
-            seen_dates.add(dd)
-            out.append({"date":fmt(dd),"nums":nums,"spec":None,"jackpot":""})
-    return out[:10]
+    # Try lottoamerica.com internal API
+    for url in [
+        "https://www.lottoamerica.com/api/results?game=lotto-america&count=10",
+        "https://www.lottoamerica.com/numbers/lotto-america.json",
+    ]:
+        text = get(url)
+        if text and ("{" in text or "[" in text):
+            try:
+                data = json.loads(text)
+                items = data if isinstance(data, list) else data.get("results", data.get("data",[]))
+                out = []
+                for item in items[:10]:
+                    nums = [int(x) for x in str(item.get("numbers","")).split(",") if x.strip().isdigit()]
+                    spec = int(str(item.get("star_ball", item.get("starBall","0"))).strip() or 0)
+                    dd   = item.get("date", item.get("draw_date",""))
+                    if nums:
+                        out.append({"date":fmt(dd),"nums":sorted(nums[:5]),"spec":spec or None,"jackpot":""})
+                if out: return out
+            except: pass
+    return []
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
     ts = datetime.now(timezone.utc)
-    print(f"LottoMind Fetcher v4 | {ts.strftime('%Y-%m-%d %H:%M UTC')}")
+    print(f"LottoMind Fetcher v5 | {ts.strftime('%Y-%m-%d %H:%M UTC')}")
 
-    # Load existing (to preserve 2by2, static games)
     existing = {}
     try:
         with open("results.json") as f: existing = json.load(f)
-        print(f"Loaded existing results.json ({len(existing)} keys)")
+        print(f"Loaded existing results.json")
     except: print("Starting fresh")
 
     results = dict(existing)
 
     tasks = [
-        ("powerball",          "Powerball",
-         lambda: parse_ny(ny_csv("d6yy-54nr",15), 5, True)),
-        ("megamillions",       "Mega Millions",       get_megamillions),
-        ("ny_take5",           "NY Take 5",           get_take5),
-        ("ny_lotto",           "NY Lotto",
-         lambda: parse_ny(ny_csv("6nbc-h7bj",15), 6, False)),
-        ("millionaireforlife", "Millionaire for Life",
-         lambda: parse_ny(ny_csv("a4w9-a3tp",15), 5, False, "$1M/year")),
-        ("lottoamerica",       "Lotto America",       get_lotto_america),
+        ("powerball",           "Powerball",
+            lambda: parse_ny(ny_csv("d6yy-54nr",15), 5, True)),
+        ("megamillions",        "Mega Millions",       get_megamillions),
+        ("ny_take5",            "NY Take 5",           get_take5),
+        ("ny_lotto",            "NY Lotto",
+            lambda: parse_ny(ny_csv("6nbc-h7bj",15), 6, False)),
+        ("millionaireforlife",  "Millionaire for Life",
+            lambda: parse_ny(ny_csv("a4w9-a3tp",15), 5, False, "$1M/year")),
+        ("lottoamerica",        "Lotto America",       get_lotto_america),
     ]
 
     for key, name, fn in tasks:
@@ -197,19 +179,20 @@ def main():
                 results[key] = data
                 print(f"{len(data)} draws | latest: {data[0]['date']}")
             else:
-                print("empty — keeping existing")
+                print("empty — keeping existing data")
         except Exception as e:
             print(f"ERROR: {e}", file=sys.stderr)
 
     results["_updated"] = ts.strftime("%Y-%m-%dT%H:%M:%SZ")
-    results["_source"]  = "GitHub Actions daily fetch — v4"
+    results["_source"]  = "GitHub Actions daily fetch — v5"
 
     with open("results.json", "w") as f:
         json.dump(results, f, indent=2)
 
     live = [k for k,v in results.items() if not k.startswith("_") and isinstance(v,list) and v]
     total = sum(len(v) for k,v in results.items() if isinstance(v,list))
-    print(f"\nDone. {len(live)} games: {', '.join(live)} | {total} total draws")
+    print(f"\nDone. {len(live)} games with data: {', '.join(live)}")
+    print(f"Total draws: {total} | File: {len(json.dumps(results))} bytes")
 
 if __name__ == "__main__":
     main()
