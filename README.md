@@ -1,0 +1,1 @@
+# lottomind-data
