@@ -181,7 +181,188 @@
       "jackpot": ""
     }
   ],
-  "megamillions": [],
+  "megamillions": [
+    {
+      "date": "May 1, 2026",
+      "nums": [
+        16,
+        21,
+        27,
+        41,
+        61
+      ],
+      "spec": 24,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 28, 2026",
+      "nums": [
+        14,
+        36,
+        41,
+        47,
+        66
+      ],
+      "spec": 15,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 24, 2026",
+      "nums": [
+        7,
+        16,
+        32,
+        35,
+        40
+      ],
+      "spec": 12,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 21, 2026",
+      "nums": [
+        1,
+        36,
+        43,
+        56,
+        58
+      ],
+      "spec": 7,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 17, 2026",
+      "nums": [
+        38,
+        43,
+        44,
+        49,
+        62
+      ],
+      "spec": 8,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 14, 2026",
+      "nums": [
+        17,
+        21,
+        24,
+        57,
+        69
+      ],
+      "spec": 12,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 10, 2026",
+      "nums": [
+        3,
+        18,
+        36,
+        42,
+        49
+      ],
+      "spec": 6,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 7, 2026",
+      "nums": [
+        5,
+        15,
+        22,
+        33,
+        37
+      ],
+      "spec": 2,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 3, 2026",
+      "nums": [
+        31,
+        45,
+        62,
+        63,
+        68
+      ],
+      "spec": 15,
+      "jackpot": ""
+    },
+    {
+      "date": "Mar 31, 2026",
+      "nums": [
+        18,
+        35,
+        45,
+        60,
+        65
+      ],
+      "spec": 17,
+      "jackpot": ""
+    },
+    {
+      "date": "Mar 27, 2026",
+      "nums": [
+        13,
+        27,
+        28,
+        41,
+        62
+      ],
+      "spec": 16,
+      "jackpot": ""
+    },
+    {
+      "date": "Mar 24, 2026",
+      "nums": [
+        4,
+        13,
+        52,
+        53,
+        69
+      ],
+      "spec": 10,
+      "jackpot": ""
+    },
+    {
+      "date": "Mar 20, 2026",
+      "nums": [
+        11,
+        20,
+        51,
+        55,
+        63
+      ],
+      "spec": 4,
+      "jackpot": ""
+    },
+    {
+      "date": "Mar 17, 2026",
+      "nums": [
+        4,
+        11,
+        18,
+        38,
+        50
+      ],
+      "spec": 24,
+      "jackpot": ""
+    },
+    {
+      "date": "Mar 13, 2026",
+      "nums": [
+        6,
+        19,
+        36,
+        40,
+        55
+      ],
+      "spec": 9,
+      "jackpot": ""
+    }
+  ],
   "ny_take5": [],
   "ny_lotto": [
     {
@@ -563,6 +744,6 @@
       "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-05-02T21:10:40Z",
-  "_source": "GitHub Actions daily fetch \u2014 v4"
+  "_updated": "2026-05-02T21:14:14Z",
+  "_source": "GitHub Actions daily fetch \u2014 v5"
 }
