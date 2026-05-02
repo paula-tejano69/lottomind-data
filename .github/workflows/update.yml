@@ -20,24 +20,26 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Test network access
+      - name: Test URLs
         run: |
-          echo "=== Testing key URLs ==="
-          curl -s -o /dev/null -w "NY PB CSV: %{http_code}\n" "https://data.ny.gov/api/views/d6yy-54nr/rows.csv?accessType=DOWNLOAD"
-          curl -s -o /dev/null -w "NY MM CSV: %{http_code}\n" "https://data.ny.gov/api/views/5xaw-6ayf/rows.csv?accessType=DOWNLOAD"
-          curl -s -o /dev/null -w "NY T5 CSV: %{http_code}\n" "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD"
-          curl -s -o /dev/null -w "TX MM CSV: %{http_code}\n" "https://www.texaslottery.com/export/sites/lottery/Games/Mega_Millions/Winning_Numbers/megamillions.csv"
-          curl -s -o /dev/null -w "LottoAmerica: %{http_code}\n" "https://www.lottoamerica.com/numbers/lotto-america"
-          curl -s -o /dev/null -w "NY MFL CSV: %{http_code}\n" "https://data.ny.gov/api/views/a4w9-a3tp/rows.csv?accessType=DOWNLOAD"
-          echo "=== First 3 lines of NY MM CSV ==="
-          curl -s "https://data.ny.gov/api/views/5xaw-6ayf/rows.csv?accessType=DOWNLOAD" | head -3
-          echo "=== First 3 lines of TX MM CSV ==="
-          curl -s "https://www.texaslottery.com/export/sites/lottery/Games/Mega_Millions/Winning_Numbers/megamillions.csv" | head -3
-          echo "=== First 3 lines of NY Take5 CSV ==="
-          curl -s "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD" | head -3
+          echo "=== HTTP status codes ==="
+          curl -s -o /dev/null -w "NY Take5 CSV:     %{http_code}\n" "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD"
+          curl -s -o /dev/null -w "BeatLottery CSV:  %{http_code}\n" "https://www.beatlottery.com/lotto-america/draw-history/year/2026/csv"
+          curl -s -o /dev/null -w "BeatLottery CSV2: %{http_code}\n" "https://www.beatlottery.com/lotto-america/draw-history/csv"
+          curl -s -o /dev/null -w "LottoAmerica arc: %{http_code}\n" "https://www.lottoamerica.com/archive/2026"
+          curl -s -o /dev/null -w "NYLottery Take5:  %{http_code}\n" "https://www.nylottery.org/take-5/past-winning-numbers"
+          echo ""
+          echo "=== NY Take5 CSV first 5 lines ==="
+          curl -s "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD" | head -5
+          echo ""
+          echo "=== BeatLottery Lotto America CSV first 5 lines ==="
+          curl -s "https://www.beatlottery.com/lotto-america/draw-history/year/2026/csv" | head -5
+          echo ""
+          echo "=== LottoAmerica archive first 500 chars ==="
+          curl -s "https://www.lottoamerica.com/archive/2026" | head -c 500
 
       - name: Fetch latest lottery results
-        run: python fetch_results.py
+        run: python fetch_results.py 2>&1
 
       - name: Commit and push results.json
         run: |
