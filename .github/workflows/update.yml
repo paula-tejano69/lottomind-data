@@ -2,10 +2,7 @@ name: Update Lottery Results
 
 on:
   schedule:
-    # Runs every day at 11:00 PM ET (03:00 UTC next day)
-    # This is after all major draws have finished
     - cron: '0 3 * * *'
-  # Also allows manual trigger from GitHub website (just click a button)
   workflow_dispatch:
 
 jobs:
@@ -22,6 +19,22 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Test network access
+        run: |
+          echo "=== Testing key URLs ==="
+          curl -s -o /dev/null -w "NY PB CSV: %{http_code}\n" "https://data.ny.gov/api/views/d6yy-54nr/rows.csv?accessType=DOWNLOAD"
+          curl -s -o /dev/null -w "NY MM CSV: %{http_code}\n" "https://data.ny.gov/api/views/5xaw-6ayf/rows.csv?accessType=DOWNLOAD"
+          curl -s -o /dev/null -w "NY T5 CSV: %{http_code}\n" "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD"
+          curl -s -o /dev/null -w "TX MM CSV: %{http_code}\n" "https://www.texaslottery.com/export/sites/lottery/Games/Mega_Millions/Winning_Numbers/megamillions.csv"
+          curl -s -o /dev/null -w "LottoAmerica: %{http_code}\n" "https://www.lottoamerica.com/numbers/lotto-america"
+          curl -s -o /dev/null -w "NY MFL CSV: %{http_code}\n" "https://data.ny.gov/api/views/a4w9-a3tp/rows.csv?accessType=DOWNLOAD"
+          echo "=== First 3 lines of NY MM CSV ==="
+          curl -s "https://data.ny.gov/api/views/5xaw-6ayf/rows.csv?accessType=DOWNLOAD" | head -3
+          echo "=== First 3 lines of TX MM CSV ==="
+          curl -s "https://www.texaslottery.com/export/sites/lottery/Games/Mega_Millions/Winning_Numbers/megamillions.csv" | head -3
+          echo "=== First 3 lines of NY Take5 CSV ==="
+          curl -s "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD" | head -3
 
       - name: Fetch latest lottery results
         run: python fetch_results.py
