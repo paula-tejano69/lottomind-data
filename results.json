@@ -1,0 +1,87 @@
+{
+  "_updated": "2026-05-02T00:00:00Z",
+  "_source": "Initial data — auto-updated daily by GitHub Actions",
+  "powerball": [
+    {"date": "May 1, 2026",  "nums": [1,3,19,35,51],  "spec": 15, "jackpot": "$20M"},
+    {"date": "Apr 29, 2026", "nums": [3,19,35,51,67],  "spec": 15, "jackpot": "$143.4M — JACKPOT WON"},
+    {"date": "Apr 27, 2026", "nums": [18,31,33,36,62], "spec": 3,  "jackpot": "$130.9M"},
+    {"date": "Apr 25, 2026", "nums": [4,30,36,52,57],  "spec": 2,  "jackpot": "$119.9M"},
+    {"date": "Apr 22, 2026", "nums": [24,29,32,49,63], "spec": 11, "jackpot": "$100.4M"},
+    {"date": "Apr 20, 2026", "nums": [9,17,36,47,64],  "spec": 26, "jackpot": "$87M"},
+    {"date": "Apr 18, 2026", "nums": [24,25,39,46,61], "spec": 1,  "jackpot": "$74M"},
+    {"date": "Apr 15, 2026", "nums": [13,21,27,43,45], "spec": 26, "jackpot": "$64M"},
+    {"date": "Apr 13, 2026", "nums": [38,43,59,63,64], "spec": 15, "jackpot": "$55M"},
+    {"date": "Apr 10, 2026", "nums": [6,47,49,53,60],  "spec": 6,  "jackpot": "$47M"}
+  ],
+  "megamillions": [
+    {"date": "Apr 28, 2026", "nums": [14,36,41,47,66], "spec": 15, "jackpot": "$163M"},
+    {"date": "Apr 24, 2026", "nums": [7,16,32,35,40],  "spec": 12, "jackpot": "$150M"},
+    {"date": "Apr 21, 2026", "nums": [1,36,43,56,58],  "spec": 7,  "jackpot": "$140M"},
+    {"date": "Apr 17, 2026", "nums": [38,43,44,49,62], "spec": 8,  "jackpot": "$130M"},
+    {"date": "Apr 14, 2026", "nums": [17,21,24,57,69], "spec": 12, "jackpot": "$120M"},
+    {"date": "Apr 10, 2026", "nums": [3,18,36,42,49],  "spec": 6,  "jackpot": "$110M"},
+    {"date": "Apr 07, 2026", "nums": [5,15,22,33,37],  "spec": 2,  "jackpot": "$100M"},
+    {"date": "Apr 03, 2026", "nums": [31,45,62,63,68], "spec": 15, "jackpot": "$90M"},
+    {"date": "Mar 31, 2026", "nums": [18,35,45,60,65], "spec": 17, "jackpot": "$80M"},
+    {"date": "Mar 27, 2026", "nums": [13,27,28,41,62], "spec": 16, "jackpot": "$70M"}
+  ],
+  "lottoamerica": [
+    {"date": "Apr 29, 2026", "nums": [6,19,24,30,48],  "spec": 4,  "jackpot": "$22M+"},
+    {"date": "Apr 27, 2026", "nums": [20,25,26,31,36], "spec": 1,  "jackpot": "$23.3M"},
+    {"date": "Apr 25, 2026", "nums": [3,15,23,32,36],  "spec": 4,  "jackpot": "$22.9M"},
+    {"date": "Apr 22, 2026", "nums": [15,20,32,46,48], "spec": 4,  "jackpot": "$22.7M"},
+    {"date": "Apr 20, 2026", "nums": [5,7,31,41,43],   "spec": 7,  "jackpot": "$22.4M"},
+    {"date": "Apr 18, 2026", "nums": [18,21,22,32,42], "spec": 10, "jackpot": "$22.2M"},
+    {"date": "Apr 15, 2026", "nums": [17,18,31,46,51], "spec": 2,  "jackpot": "$22M"},
+    {"date": "Apr 13, 2026", "nums": [1,18,19,35,50],  "spec": 9,  "jackpot": "$21.8M"}
+  ],
+  "millionaireforlife": [
+    {"date": "Apr 30, 2026", "nums": [11,24,35,42,55], "spec": 3,  "jackpot": "$1M/year"},
+    {"date": "Apr 29, 2026", "nums": [7,18,29,38,51],  "spec": 1,  "jackpot": "$1M/year"},
+    {"date": "Apr 28, 2026", "nums": [4,15,27,44,57],  "spec": 5,  "jackpot": "$1M/year"},
+    {"date": "Apr 27, 2026", "nums": [9,22,33,46,52],  "spec": 2,  "jackpot": "$1M/year"},
+    {"date": "Apr 26, 2026", "nums": [6,17,31,43,56],  "spec": 4,  "jackpot": "$1M/year"}
+  ],
+  "tristatemegabucks": [
+    {"date": "Apr 29, 2026", "nums": [3,11,22,34,41,47],  "spec": null, "jackpot": "$1.5M"},
+    {"date": "Apr 25, 2026", "nums": [8,16,25,37,44,48],  "spec": null, "jackpot": "$1.4M"},
+    {"date": "Apr 22, 2026", "nums": [2,14,28,36,43,49],  "spec": null, "jackpot": "$1.3M"},
+    {"date": "Apr 18, 2026", "nums": [5,12,21,33,40,46],  "spec": null, "jackpot": "$1.2M"},
+    {"date": "Apr 15, 2026", "nums": [7,19,26,35,42,47],  "spec": null, "jackpot": "$1.1M"}
+  ],
+  "gimme5": [
+    {"date": "Apr 29, 2026", "nums": [4,12,21,30,37],  "spec": null, "jackpot": "$100K"},
+    {"date": "Apr 27, 2026", "nums": [9,17,24,33,38],  "spec": null, "jackpot": "$100K"},
+    {"date": "Apr 25, 2026", "nums": [2,14,22,31,39],  "spec": null, "jackpot": "$100K"},
+    {"date": "Apr 22, 2026", "nums": [6,15,23,32,36],  "spec": null, "jackpot": "$100K"},
+    {"date": "Apr 20, 2026", "nums": [1,11,20,29,35],  "spec": null, "jackpot": "$100K"}
+  ],
+  "2by2": [
+    {"date": "May 1, 2026",  "nums": [14,20], "spec": [10,23], "jackpot": "$22K"},
+    {"date": "Apr 30, 2026", "nums": [19,24], "spec": [26,22], "jackpot": "$22K"},
+    {"date": "Apr 29, 2026", "nums": [9,17],  "spec": [17,24], "jackpot": "$22K"},
+    {"date": "Apr 28, 2026", "nums": [3,24],  "spec": [6,6],   "jackpot": "$22K"},
+    {"date": "Apr 27, 2026", "nums": [5,10],  "spec": [10,18], "jackpot": "$22K"},
+    {"date": "Apr 26, 2026", "nums": [15,21], "spec": [9,26],  "jackpot": "$22K"},
+    {"date": "Apr 25, 2026", "nums": [12,15], "spec": [21,26], "jackpot": "$22K"},
+    {"date": "Apr 24, 2026", "nums": [25,6],  "spec": [22,22], "jackpot": "$22K"},
+    {"date": "Apr 23, 2026", "nums": [3,18],  "spec": [25,24], "jackpot": "$22K"},
+    {"date": "Apr 22, 2026", "nums": [9,16],  "spec": [24,25], "jackpot": "$22K"}
+  ],
+  "luckyforlife": [
+    {"date": "Feb 21, 2026", "nums": [7,19,32,41,47], "spec": 11, "jackpot": "FINAL DRAW"},
+    {"date": "Feb 19, 2026", "nums": [3,14,28,36,45], "spec": 8,  "jackpot": "$7K/day"},
+    {"date": "Feb 16, 2026", "nums": [11,22,31,39,46],"spec": 15, "jackpot": "$7K/day"},
+    {"date": "Feb 14, 2026", "nums": [5,17,26,38,44], "spec": 4,  "jackpot": "$7K/day"},
+    {"date": "Feb 12, 2026", "nums": [9,21,30,42,48], "spec": 12, "jackpot": "$7K/day"}
+  ],
+  "cash4life": [
+    {"date": "Feb 21, 2026", "nums": [8,23,37,49,58], "spec": 3, "jackpot": "FINAL DRAW"},
+    {"date": "Feb 20, 2026", "nums": [14,28,41,52,59],"spec": 1, "jackpot": "$1K/day"},
+    {"date": "Feb 19, 2026", "nums": [6,19,33,47,56], "spec": 4, "jackpot": "$1K/day"},
+    {"date": "Feb 18, 2026", "nums": [11,25,38,50,60],"spec": 2, "jackpot": "$1K/day"},
+    {"date": "Feb 17, 2026", "nums": [4,17,30,44,55], "spec": 3, "jackpot": "$1K/day"}
+  ],
+  "ny_take5": [],
+  "ny_lotto": []
+}
