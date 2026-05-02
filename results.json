@@ -363,7 +363,188 @@
       "jackpot": ""
     }
   ],
-  "ny_take5": [],
+  "ny_take5": [
+    {
+      "date": "May 1, 2026",
+      "nums": [
+        2,
+        5,
+        12,
+        32,
+        33
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 30, 2026",
+      "nums": [
+        21,
+        27,
+        33,
+        35,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 29, 2026",
+      "nums": [
+        4,
+        18,
+        24,
+        27,
+        30
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 28, 2026",
+      "nums": [
+        3,
+        6,
+        8,
+        11,
+        33
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 27, 2026",
+      "nums": [
+        7,
+        21,
+        26,
+        28,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 26, 2026",
+      "nums": [
+        1,
+        17,
+        19,
+        33,
+        35
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 25, 2026",
+      "nums": [
+        1,
+        7,
+        24,
+        27,
+        28
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 24, 2026",
+      "nums": [
+        6,
+        10,
+        11,
+        16,
+        34
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 23, 2026",
+      "nums": [
+        18,
+        26,
+        34,
+        36,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 22, 2026",
+      "nums": [
+        6,
+        10,
+        11,
+        14,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 21, 2026",
+      "nums": [
+        1,
+        3,
+        6,
+        16,
+        21
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 20, 2026",
+      "nums": [
+        2,
+        17,
+        22,
+        31,
+        38
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 19, 2026",
+      "nums": [
+        9,
+        18,
+        24,
+        27,
+        29
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 18, 2026",
+      "nums": [
+        18,
+        23,
+        26,
+        32,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Apr 17, 2026",
+      "nums": [
+        14,
+        28,
+        32,
+        33,
+        37
+      ],
+      "spec": null,
+      "jackpot": ""
+    }
+  ],
   "ny_lotto": [
     {
       "date": "Apr 29, 2026",
@@ -744,6 +925,6 @@
       "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-05-02T21:33:05Z",
-  "_source": "GitHub Actions daily fetch \u2014 v6"
+  "_updated": "2026-05-02T21:38:51Z",
+  "_source": "GitHub Actions daily fetch \u2014 v7"
 }
