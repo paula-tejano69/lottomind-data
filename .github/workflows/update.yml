@@ -1,0 +1,35 @@
+name: Update Lottery Results
+
+on:
+  schedule:
+    # Runs every day at 11:00 PM ET (03:00 UTC next day)
+    # This is after all major draws have finished
+    - cron: '0 3 * * *'
+  # Also allows manual trigger from GitHub website (just click a button)
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch latest lottery results
+        run: python fetch_results.py
+
+      - name: Commit and push results.json
+        run: |
+          git config user.name  "LottoMind Bot"
+          git config user.email "bot@lottomind.com"
+          git add results.json
+          git diff --staged --quiet || git commit -m "Update results $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
