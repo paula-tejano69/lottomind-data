@@ -20,31 +20,22 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Test URLs
+      - name: Save HTML pages for debugging
         run: |
-          echo "=== HTTP status codes ==="
-          curl -s -o /dev/null -w "NY Take5 CSV:     %{http_code}\n" "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD"
-          curl -s -o /dev/null -w "BeatLottery CSV:  %{http_code}\n" "https://www.beatlottery.com/lotto-america/draw-history/year/2026/csv"
-          curl -s -o /dev/null -w "BeatLottery CSV2: %{http_code}\n" "https://www.beatlottery.com/lotto-america/draw-history/csv"
-          curl -s -o /dev/null -w "LottoAmerica arc: %{http_code}\n" "https://www.lottoamerica.com/archive/2026"
-          curl -s -o /dev/null -w "NYLottery Take5:  %{http_code}\n" "https://www.nylottery.org/take-5/past-winning-numbers"
-          echo ""
-          echo "=== NY Take5 CSV first 5 lines ==="
-          curl -s "https://data.ny.gov/api/views/dg63-4siq/rows.csv?accessType=DOWNLOAD" | head -5
-          echo ""
-          echo "=== BeatLottery Lotto America CSV first 5 lines ==="
-          curl -s "https://www.beatlottery.com/lotto-america/draw-history/year/2026/csv" | head -5
-          echo ""
-          echo "=== LottoAmerica archive first 500 chars ==="
-          curl -s "https://www.lottoamerica.com/archive/2026" | head -c 500
+          curl -s -A "Mozilla/5.0" "https://www.lottoamerica.com/archive/2026" > debug_lottoamerica.html
+          curl -s -A "Mozilla/5.0" "https://www.nhlottery.com/Games/Megabucks-Doubler" > debug_megabucks.html
+          curl -s -A "Mozilla/5.0" "https://www.nhlottery.com/Games/Gimme-5" > debug_gimme5.html
+          curl -s -A "Mozilla/5.0" "https://www.powerball.com/previous-results?gc=2by2" > debug_2by2.html
+          echo "Files saved:"
+          wc -l debug_*.html
 
       - name: Fetch latest lottery results
         run: python fetch_results.py 2>&1
 
-      - name: Commit and push results.json
+      - name: Commit and push all files
         run: |
           git config user.name  "LottoMind Bot"
           git config user.email "bot@lottomind.com"
-          git add results.json
-          git diff --staged --quiet || git commit -m "Update results $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git add results.json debug_*.html
+          git diff --staged --quiet || git commit -m "Update results + debug HTML $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
