@@ -1291,9 +1291,21 @@
       "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-05-03T13:39:06Z",
+  "_updated": "2026-05-04T06:11:20Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "May 3, 2026",
+      "nums": [
+        1,
+        25
+      ],
+      "spec": [
+        5,
+        25
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "May 2, 2026",
       "nums": [
@@ -1458,18 +1470,6 @@
       ],
       "spec": [
         9,
-        26
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Apr 18, 2026",
-      "nums": [
-        14,
-        21
-      ],
-      "spec": [
-        10,
         26
       ],
       "jackpot": "$22K"
