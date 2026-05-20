@@ -1,6 +1,18 @@
 {
   "powerball": [
     {
+      "date": "May 18, 2026",
+      "nums": [
+        4,
+        13,
+        34,
+        61,
+        65
+      ],
+      "spec": 12,
+      "jackpot": ""
+    },
+    {
       "date": "May 16, 2026",
       "nums": [
         8,
@@ -227,21 +239,21 @@
       ],
       "spec": 1,
       "jackpot": ""
-    },
-    {
-      "date": "Apr 1, 2026",
-      "nums": [
-        4,
-        10,
-        11,
-        52,
-        64
-      ],
-      "spec": 24,
-      "jackpot": ""
     }
   ],
   "megamillions": [
+    {
+      "date": "May 19, 2026",
+      "nums": [
+        10,
+        26,
+        34,
+        56,
+        64
+      ],
+      "spec": 6,
+      "jackpot": ""
+    },
     {
       "date": "May 15, 2026",
       "nums": [
@@ -409,21 +421,21 @@
       ],
       "spec": 17,
       "jackpot": ""
-    },
-    {
-      "date": "Mar 27, 2026",
-      "nums": [
-        13,
-        27,
-        28,
-        41,
-        62
-      ],
-      "spec": 16,
-      "jackpot": ""
     }
   ],
   "ny_take5": [
+    {
+      "date": "May 18, 2026",
+      "nums": [
+        1,
+        9,
+        25,
+        27,
+        38
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
     {
       "date": "May 17, 2026",
       "nums": [
@@ -588,18 +600,6 @@
         18,
         24,
         29
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "May 3, 2026",
-      "nums": [
-        16,
-        19,
-        26,
-        35,
-        39
       ],
       "spec": null,
       "jackpot": ""
@@ -1051,6 +1051,18 @@
   ],
   "millionaireforlife": [
     {
+      "date": "May 18, 2026",
+      "nums": [
+        1,
+        5,
+        20,
+        29,
+        34
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
       "date": "May 17, 2026",
       "nums": [
         11,
@@ -1277,23 +1289,23 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Apr 28, 2026",
-      "nums": [
-        11,
-        21,
-        34,
-        39,
-        45
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-05-19T06:47:14Z",
+  "_updated": "2026-05-20T06:47:57Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "May 19, 2026",
+      "nums": [
+        1,
+        15
+      ],
+      "spec": [
+        7,
+        16
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "May 18, 2026",
       "nums": [
@@ -1459,18 +1471,6 @@
       "spec": [
         9,
         21
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "May 4, 2026",
-      "nums": [
-        1,
-        19
-      ],
-      "spec": [
-        14,
-        15
       ],
       "jackpot": "$22K"
     }
