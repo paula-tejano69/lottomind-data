@@ -425,6 +425,18 @@
   ],
   "ny_take5": [
     {
+      "date": "Jun 9, 2026",
+      "nums": [
+        13,
+        24,
+        28,
+        32,
+        38
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
       "date": "Jun 8, 2026",
       "nums": [
         5,
@@ -588,18 +600,6 @@
         20,
         28,
         32
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "May 25, 2026",
-      "nums": [
-        9,
-        12,
-        21,
-        36,
-        37
       ],
       "spec": null,
       "jackpot": ""
@@ -869,6 +869,18 @@
   ],
   "lottoamerica": [
     {
+      "date": "Jun 10, 2026",
+      "nums": [
+        6,
+        9,
+        23,
+        45,
+        51
+      ],
+      "spec": 6,
+      "jackpot": ""
+    },
+    {
       "date": "Jun 8, 2026",
       "nums": [
         4,
@@ -1035,21 +1047,21 @@
       ],
       "spec": 4,
       "jackpot": ""
-    },
-    {
-      "date": "May 6, 2026",
-      "nums": [
-        3,
-        6,
-        7,
-        18,
-        49
-      ],
-      "spec": 10,
-      "jackpot": ""
     }
   ],
   "millionaireforlife": [
+    {
+      "date": "Jun 9, 2026",
+      "nums": [
+        23,
+        25,
+        33,
+        35,
+        50
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
     {
       "date": "Jun 8, 2026",
       "nums": [
@@ -1277,32 +1289,20 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "May 20, 2026",
-      "nums": [
-        14,
-        23,
-        27,
-        44,
-        50
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-06-10T07:07:49Z",
+  "_updated": "2026-06-11T07:28:32Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
     {
-      "date": "Jun 9, 2026",
+      "date": "Jun 10, 2026",
       "nums": [
-        5,
-        17
+        11,
+        21
       ],
       "spec": [
-        10,
-        18
+        7,
+        14
       ],
       "jackpot": "$22K"
     },
