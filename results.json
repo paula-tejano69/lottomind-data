@@ -243,6 +243,18 @@
   ],
   "megamillions": [
     {
+      "date": "Jun 19, 2026",
+      "nums": [
+        13,
+        16,
+        21,
+        26,
+        50
+      ],
+      "spec": 12,
+      "jackpot": ""
+    },
+    {
       "date": "Jun 16, 2026",
       "nums": [
         12,
@@ -408,18 +420,6 @@
         61
       ],
       "spec": 24,
-      "jackpot": ""
-    },
-    {
-      "date": "Apr 28, 2026",
-      "nums": [
-        14,
-        36,
-        41,
-        47,
-        66
-      ],
-      "spec": 15,
       "jackpot": ""
     }
   ],
@@ -1291,9 +1291,21 @@
       "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-06-19T08:30:29Z",
+  "_updated": "2026-06-20T07:00:00Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Jun 19, 2026",
+      "nums": [
+        4,
+        8
+      ],
+      "spec": [
+        4,
+        16
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Jun 18, 2026",
       "nums": [
@@ -1459,18 +1471,6 @@
       "spec": [
         8,
         9
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Jun 4, 2026",
-      "nums": [
-        1,
-        7
-      ],
-      "spec": [
-        2,
-        22
       ],
       "jackpot": "$22K"
     }
