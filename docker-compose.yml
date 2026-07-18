@@ -1,0 +1,24 @@
+services:
+  gogrupo:
+    build: .
+    # Se preferir não buildar, comente "build" e use uma imagem própria.
+    container_name: gogrupo
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+
+# Dica: se a sua Evolution API roda em outro docker-compose, conecte os dois
+# na mesma rede externa para usar a URL interna http://evolution-api:8080.
+# Descomente abaixo e ajuste o nome da rede:
+#
+#    networks:
+#      - evolution-net
+#
+# networks:
+#   evolution-net:
+#     external: true

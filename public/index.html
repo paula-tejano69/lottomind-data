@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoX1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="app.css?v=39" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="product-switch">
+      <span class="logo">Go<span>X1</span></span>
+    </div>
+
+    <div class="app-shortcuts">
+      <a class="app-shortcut-btn" id="btnGogrupo" href="#" target="_blank" title="Ir para Gogrupo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="6" height="5" rx="1.5"/><rect x="15" y="15" width="6" height="5" rx="1.5"/><path d="M9 6.5h4a2 2 0 0 1 2 2v9"/></svg>
+        <span>Gogrupo</span>
+      </a>
+      <a class="app-shortcut-btn" id="btnGoFire" href="#" target="_blank" title="Ir para GoFire">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2c2 4-2 5-2 9a4 4 0 0 0 8 0c0-2-1-3-1-3s1 4-2 4-2-3-2-3-3 1-3 5a5 5 0 0 0 10 0c0-7-6-8-6-12z"/></svg>
+        <span>GoFire</span>
+      </a>
+    </div>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="x1-chats">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>Chats ao vivo</span>
+      </button>
+      <button class="menu-item" data-view="x1-flows">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="6" height="5" rx="1.5"/><rect x="15" y="15" width="6" height="5" rx="1.5"/><path d="M9 6.5h4a2 2 0 0 1 2 2v9"/></svg>
+        <span>Fluxos</span>
+      </button>
+      <button class="menu-item" data-view="x1-contacts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.5a3 3 0 0 1 0 5.5M16.5 19a5.5 5.5 0 0 0-3-4.9"/></svg>
+        <span>Contatos</span>
+      </button>
+      <button class="menu-item" data-view="x1-triggers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2L4.5 13H11l-1 9 8.5-11H12l1-9z"/></svg>
+        <span>Disparos</span>
+      </button>
+      <button class="menu-item" data-view="devices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/></svg>
+        <span>Dispositivos</span>
+      </button>
+      <button class="menu-item" data-view="x1-settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+        <span>Configurações</span>
+      </button>
+    </nav>
+
+    <div class="side-foot">
+      <div class="conn" id="conn"><span class="pip"></span><span id="connText">—</span></div>
+      <div id="appVersion" style="font-size:0.7rem;color:var(--muted);margin-top:4px;opacity:0.8">GoX1 v34</div>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <!-- Chats ao vivo -->
+    <section class="view" id="view-x1-chats">
+      <div class="x1-chats-layout">
+        <div class="x1-chat-list">
+          <div class="x1-chat-list-head">
+            <h2 style="font-family:var(--font-display);margin:0">Conversas</h2>
+            <select id="x1DeviceFilter" style="width:100%;margin-bottom:8px">
+              <option value="">Todos os dispositivos</option>
+            </select>
+            <div class="seg" id="x1ChatFilter">
+              <button data-f="waiting" class="active">Aguardando</button>
+              <button data-f="attending">Atendendo</button>
+              <button data-f="done">Resolvidos</button>
+            </div>
+          </div>
+          <div id="x1ChatItems"></div>
+        </div>
+        <div class="x1-chat-panel" id="x1ChatPanel">
+          <div class="empty" style="margin:auto"><div class="big">Selecione uma conversa</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fluxos -->
+    <section class="view" id="view-x1-flows" hidden>
+      <div class="view-head">
+        <div><h1>Fluxos</h1><p class="sub">Fluxos reativos — disparam automaticamente quando uma mensagem chega.</p></div>
+        <div class="row-gap">
+          <input type="file" id="x1ImportInput" accept="application/json,.json" hidden />
+          <button class="btn ghost" id="x1ImportFlow">Importar</button>
+          <button class="btn primary" id="x1NewFlow">Novo fluxo</button>
+        </div>
+      </div>
+      <div class="flow-grid" id="x1FlowGrid"></div>
+    </section>
+
+    <!-- Contatos -->
+    <section class="view" id="view-x1-contacts" hidden>
+      <div class="view-head"><div><h1>Contatos</h1><p class="sub">Todo contato que já mandou mensagem aparece aqui automaticamente.</p></div></div>
+      <div class="panel">
+        <div id="x1ContactsList"></div>
+      </div>
+    </section>
+
+    <!-- Dispositivos -->
+    <section class="view" id="view-devices" hidden>
+      <div class="view-head">
+        <div><h1>Dispositivos</h1><p class="sub">Conecte quantos números quiser.</p></div>
+        <button class="btn primary" id="newDevice">Conectar dispositivo</button>
+      </div>
+      <div class="device-list" id="deviceList"></div>
+    </section>
+
+    <!-- Disparos (por dispositivo) -->
+    <section class="view" id="view-x1-triggers" hidden>
+      <div class="view-head"><div><h1>Disparos</h1><p class="sub">Configure os gatilhos de cada número separadamente. Cada dispositivo pode ter seus próprios fluxos.</p></div></div>
+      <div class="panel narrow">
+        <div class="field"><label class="lbl">Selecione o dispositivo</label>
+          <select id="x1TrgDevice"><option value="">Escolha um número…</option></select></div>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Números já configurados</h3>
+        <p class="hint" style="margin:0 0 10px">Clique para editar. Só estes disparam fluxo — os demais (ex.: chips em aquecimento) ficam de fora.</p>
+        <div id="x1TrgConfigured"></div>
+      </div>
+      <div id="x1TrgConfig" hidden>
+        <div class="panel narrow" style="margin-top:18px">
+          <h3 style="font-family:var(--font-display);margin:0 0 4px">Disparo por palavra-chave</h3>
+          <p class="hint" style="margin:0 0 10px">Prioridade sobre os outros disparos deste número.</p>
+          <div id="x1TrgKeywords"></div>
+          <button class="btn ghost sm" id="x1TrgAddKw" style="margin-top:8px">+ Adicionar palavra-chave</button>
+        </div>
+        <div class="panel narrow" style="margin-top:18px">
+          <h3 style="font-family:var(--font-display);margin:0 0 4px">Outros disparos</h3>
+          <div class="field"><label class="lbl">Fluxo de boas-vindas <span class="hint">(primeiro contato)</span></label><select id="x1TrgWelcome"><option value="">(nenhum)</option></select></div>
+          <div class="field"><label class="lbl">Fluxo de resposta padrão</label><select id="x1TrgDefault"><option value="">(nenhum)</option></select></div>
+          <div class="field"><label class="lbl">Inatividade para resposta padrão (horas)</label><input type="number" id="x1TrgTimeout" min="1" value="24" /></div>
+          <button class="btn primary" id="x1TrgSave">Salvar disparos deste número</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Configurações -->
+    <section class="view" id="view-x1-settings" hidden>
+      <div class="view-head"><div><h1>Configurações</h1><p class="sub">Webhook, gatilhos automáticos e links para outros apps.</p></div></div>
+      <div class="panel narrow">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Conexão Evolution API</h3>
+        <div class="field"><label class="lbl">URL da Evolution API</label><input id="cfgUrl" placeholder="https://sua-evolution.com" /></div>
+        <div class="field"><label class="lbl">API Key</label><input id="cfgKey" type="password" placeholder="deixe em branco para manter" /></div>
+        <button class="btn primary" id="saveConfig">Salvar conexão</button>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Webhook (recebimento de mensagens)</h3>
+        <p class="hint" style="margin-bottom:12px">Conecta a Evolution API ao GoX1.</p>
+        <div class="field"><label class="lbl">Dispositivo</label><select id="x1WebhookDevice"></select></div>
+        <div class="field"><label class="lbl">URL pública do GoX1</label><input id="x1WebhookBaseUrl" placeholder="https://..." /></div>
+        <button class="btn primary" id="x1WebhookSetup">Conectar webhook</button>
+        <p class="hint" id="x1WebhookResult" style="margin-top:10px"></p>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Facebook — Pixels</h3>
+        <p class="hint" style="margin:0 0 10px">Cadastre seus pixels aqui (fora do fluxo). Depois, no fluxo, use o node "Pixel" para disparar o evento de compra na Conversions API. O token é salvo no servidor e nunca é reexibido.</p>
+        <div class="field"><label class="lbl">Nome do pixel</label><input id="x1PxName" placeholder="ex: Pixel Loterias" /></div>
+        <div class="field"><label class="lbl">ID do Pixel</label><input id="x1PxId" placeholder="ex: 993952546924785" /></div>
+        <div class="field"><label class="lbl">Access Token (CAPI)</label><input id="x1PxToken" type="password" placeholder="EAAZ..." /></div>
+        <button class="btn primary" id="x1AddPixelBtn">Cadastrar pixel</button>
+        <div id="x1PixelList" style="margin-top:14px"></div>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Asaas — Compra aprovada → Fluxo B</h3>
+        <p class="hint" style="margin:0 0 10px">Recebe do Worker do checkout (não da Asaas diretamente) a confirmação de "compra aprovada", casa com o contato pelo telefone (tenta com/sem o 9º dígito) e dispara o fluxo escolhido pra esse contato — é o fluxo que marca a tag, manda a mensagem e dispara o Pixel. O Worker chama esta URL: <code id="x1AsaasUrl" style="user-select:all"></code></p>
+        <div class="field"><label class="lbl">Chave secreta do relay (a mesma configurada como GOX1_RELAY_SECRET no Worker do checkout)</label><input id="x1AsaasSecret" type="password" placeholder="cole a chave secreta" /></div>
+        <div class="field"><label class="lbl">Fluxo a disparar quando a compra casar com um contato</label><select id="x1AsaasFlow"><option value="">(escolha um fluxo)</option></select></div>
+        <p class="hint" style="margin:8px 0 14px">Se o telefone da compra não bater com nenhum contato do WhatsApp (comprou sem nunca ter conversado), não tem como rodar um fluxo — nesse caso, como reserva, disparamos o Purchase direto pelo pixel abaixo, sem vínculo com contato/anúncio.</p>
+        <div class="field"><label class="lbl">Pixel de reserva (só para compra sem contato correspondente)</label><select id="x1AsaasPixel"><option value="">(escolha um pixel cadastrado acima)</option></select></div>
+        <div class="field"><label class="lbl">Page ID (usado no pixel de reserva)</label><input id="x1AsaasPageId" placeholder="ex: 1234567890" /></div>
+        <button class="btn primary" id="x1AsaasSaveBtn">Salvar</button>
+        <p class="hint" id="x1AsaasState" style="margin-top:10px"></p>
+        <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line)">
+          <h4 style="margin:0 0 6px">Simular compra aprovada (teste, sem gastar nada)</h4>
+          <p class="hint" style="margin:0 0 10px">Aqui você testa com o número real de um contato que já existe no seu WhatsApp — não manda nada de verdade pra Asaas, só simula a chegada do webhook já repassado pelo Worker.</p>
+          <div class="field"><label class="lbl">Telefone do contato (com DDD, sem 55 — ex: 73999662897)</label><input id="x1AsaasTestPhone" placeholder="ex: 73999662897" /></div>
+          <div class="field"><label class="lbl">Valor (R$)</label><input id="x1AsaasTestAmount" type="number" value="19.9" /></div>
+          <button class="btn ghost" id="x1AsaasTestBtn">Enviar simulação</button>
+          <pre id="x1AsaasTestResult" class="hint" style="margin-top:10px;white-space:pre-wrap"></pre>
+        </div>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Etiquetas</h3>
+        <p class="hint" style="margin:0 0 10px">Crie etiquetas para usar no node "Etiqueta" e nos condicionais. Marque "guarda valor" se a etiqueta deve armazenar um conteúdo (com histórico) — aí ela também vira um campo que o condicional e a IA podem ler/gravar.</p>
+        <div class="field"><label class="lbl">Nome da etiqueta</label><input id="x1NewTagName" placeholder="ex: pagou" /></div>
+        <div class="field"><label class="toggle-row"><input type="checkbox" id="x1NewTagStores"/><span><span class="tl">Guarda valor</span><br><span class="ts">A etiqueta armazena um conteúdo por contato, com histórico</span></span></label></div>
+        <button class="btn primary" id="x1AddTagBtn">Criar etiqueta</button>
+        <div id="x1TagList" style="margin-top:14px"></div>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Recepção de mensagens (webhook)</h3>
+        <p class="hint" style="margin:0 0 10px">Para o chat receber mensagens, o webhook de cada número precisa apontar para o GoX1. Como a Evolution só permite 1 webhook por número, se o mesmo aparelho estiver aquecendo no GoFire, ele fica apontado para lá. Verifique e corrija aqui.</p>
+        <div id="whStatus" class="hint">Clique em "Verificar" para checar.</div>
+        <div class="row-gap" style="margin-top:12px">
+          <button class="btn ghost" id="whCheck">Verificar</button>
+          <button class="btn primary" id="whFixAll">Apontar todos para o GoX1</button>
+        </div>
+      </div>
+      <div class="panel narrow" style="margin-top:18px">
+        <h3 style="font-family:var(--font-display);margin:0 0 4px">Inteligência Artificial (OpenAI)</h3>
+        <p class="hint" style="margin:0 0 10px">Chave usada pelos blocos de IA (ler comprovante, classificar intenção). Fica salva no servidor e nunca é exibida de volta.</p>
+        <div class="field"><label class="lbl">Chave da API OpenAI</label><input id="cfgOpenaiKey" type="password" placeholder="sk-..." /></div>
+        <div id="cfgOpenaiState" class="hint" style="margin-bottom:8px"></div>
+        <button class="btn primary" id="saveOpenaiKey">Salvar chave</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- EDITOR DO GOX1 -->
+  <div class="editor" id="x1Editor" hidden>
+    <div class="editor-bar">
+      <button class="icon-btn" id="x1BackToFlows">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <input class="flow-name" id="x1FlowName" placeholder="Nome do fluxo" />
+      <span class="save-dot" id="x1SaveDot" title="salvo"></span>
+      <span id="x1SavedAt" class="hint" style="margin-left:8px"></span>
+      <div class="spacer"></div>
+      <button class="btn ghost" id="x1ExportFlow" title="Baixa este fluxo em .json — útil para mandar para análise">Exportar</button>
+      <button class="btn ghost" id="x1TogglePause">Pausar fluxo</button>
+    </div>
+    <div class="canvas" id="x1Canvas">
+      <div class="canvas-content" id="x1Content">
+        <svg class="edges" id="x1Edges" width="6000" height="4000"></svg>
+      </div>
+      <div class="canvas-tools">
+        <button class="icon-btn" id="x1ZoomOut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg></button>
+        <span id="x1ZoomLabel" class="zoom-label">100%</span>
+        <button class="icon-btn" id="x1ZoomIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="icon-btn" id="x1ZoomReset" title="Encaixar tudo na tela"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/></svg></button>
+      </div>
+      <div class="x1-minimap" id="x1Minimap"><svg id="x1MinimapSvg" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <button class="add-node-fab" id="x1AddNodeFab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer-bg" id="drawerBg" hidden></div>
+  <aside class="drawer" id="drawer" hidden>
+    <div class="drawer-head"><h2 id="drawerTitle">Nó</h2><button class="icon-btn" id="closeDrawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-foot" id="drawerFoot"></div>
+  </aside>
+
+  <div class="modal-bg" id="modalBg" hidden>
+    <div class="modal" id="modal"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js?v=39"></script>
+</body>
+</html>
