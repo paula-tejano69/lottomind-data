@@ -425,6 +425,18 @@
   ],
   "ny_take5": [
     {
+      "date": "Jul 28, 2026",
+      "nums": [
+        4,
+        22,
+        35,
+        37,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
       "date": "Jul 27, 2026",
       "nums": [
         14,
@@ -588,18 +600,6 @@
         11,
         14,
         37
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "Jul 13, 2026",
-      "nums": [
-        2,
-        6,
-        7,
-        18,
-        26
       ],
       "spec": null,
       "jackpot": ""
@@ -869,6 +869,18 @@
   ],
   "lottoamerica": [
     {
+      "date": "Jul 29, 2026",
+      "nums": [
+        11,
+        12,
+        20,
+        26,
+        33
+      ],
+      "spec": 8,
+      "jackpot": ""
+    },
+    {
       "date": "Jul 27, 2026",
       "nums": [
         15,
@@ -1035,21 +1047,21 @@
       ],
       "spec": 6,
       "jackpot": ""
-    },
-    {
-      "date": "Jun 24, 2026",
-      "nums": [
-        26,
-        39,
-        45,
-        49,
-        51
-      ],
-      "spec": 2,
-      "jackpot": ""
     }
   ],
   "millionaireforlife": [
+    {
+      "date": "Jul 28, 2026",
+      "nums": [
+        13,
+        29,
+        42,
+        53,
+        54
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
     {
       "date": "Jul 27, 2026",
       "nums": [
@@ -1277,23 +1289,23 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Jul 8, 2026",
-      "nums": [
-        16,
-        18,
-        43,
-        48,
-        50
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-07-29T05:49:58Z",
+  "_updated": "2026-07-30T05:37:43Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Jul 29, 2026",
+      "nums": [
+        1,
+        24
+      ],
+      "spec": [
+        5,
+        7
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Jul 28, 2026",
       "nums": [
@@ -1459,18 +1471,6 @@
       "spec": [
         8,
         22
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Jul 14, 2026",
-      "nums": [
-        2,
-        18
-      ],
-      "spec": [
-        1,
-        2
       ],
       "jackpot": "$22K"
     }
