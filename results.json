@@ -1051,6 +1051,18 @@
   ],
   "millionaireforlife": [
     {
+      "date": "Sep 20, 2026",
+      "nums": [
+        14,
+        28,
+        30,
+        37,
+        42
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
       "date": "Sep 19, 2026",
       "nums": [
         4,
@@ -1277,23 +1289,23 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Aug 31, 2026",
-      "nums": [
-        2,
-        9,
-        30,
-        37,
-        45
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-09-20T08:16:14Z",
+  "_updated": "2026-09-21T08:33:51Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Sep 20, 2026",
+      "nums": [
+        8,
+        14
+      ],
+      "spec": [
+        20,
+        25
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Sep 19, 2026",
       "nums": [
@@ -1459,18 +1471,6 @@
       "spec": [
         5,
         22
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Sep 5, 2026",
-      "nums": [
-        5,
-        16
-      ],
-      "spec": [
-        1,
-        23
       ],
       "jackpot": "$22K"
     }
