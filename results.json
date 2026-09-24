@@ -1,6 +1,30 @@
 {
   "powerball": [
     {
+      "date": "Sep 23, 2026",
+      "nums": [
+        5,
+        15,
+        26,
+        29,
+        30
+      ],
+      "spec": 14,
+      "jackpot": ""
+    },
+    {
+      "date": "Sep 21, 2026",
+      "nums": [
+        2,
+        7,
+        9,
+        17,
+        58
+      ],
+      "spec": 20,
+      "jackpot": ""
+    },
+    {
       "date": "Sep 19, 2026",
       "nums": [
         18,
@@ -215,33 +239,21 @@
       ],
       "spec": 10,
       "jackpot": ""
-    },
-    {
-      "date": "Aug 8, 2026",
-      "nums": [
-        5,
-        9,
-        35,
-        54,
-        63
-      ],
-      "spec": 7,
-      "jackpot": ""
-    },
-    {
-      "date": "Aug 5, 2026",
-      "nums": [
-        14,
-        20,
-        59,
-        60,
-        61
-      ],
-      "spec": 25,
-      "jackpot": ""
     }
   ],
   "megamillions": [
+    {
+      "date": "Sep 22, 2026",
+      "nums": [
+        7,
+        13,
+        26,
+        37,
+        68
+      ],
+      "spec": 8,
+      "jackpot": ""
+    },
     {
       "date": "Sep 18, 2026",
       "nums": [
@@ -409,21 +421,57 @@
       ],
       "spec": 21,
       "jackpot": ""
-    },
-    {
-      "date": "Jul 31, 2026",
-      "nums": [
-        4,
-        18,
-        26,
-        43,
-        51
-      ],
-      "spec": 4,
-      "jackpot": ""
     }
   ],
   "ny_take5": [
+    {
+      "date": "Sep 23, 2026",
+      "nums": [
+        1,
+        15,
+        17,
+        28,
+        30
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Sep 22, 2026",
+      "nums": [
+        10,
+        15,
+        19,
+        22,
+        39
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Sep 21, 2026",
+      "nums": [
+        21,
+        26,
+        27,
+        31,
+        36
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Sep 20, 2026",
+      "nums": [
+        12,
+        16,
+        25,
+        31,
+        36
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
     {
       "date": "Sep 19, 2026",
       "nums": [
@@ -555,57 +603,22 @@
       ],
       "spec": null,
       "jackpot": ""
-    },
+    }
+  ],
+  "ny_lotto": [
     {
-      "date": "Sep 8, 2026",
+      "date": "Sep 23, 2026",
       "nums": [
         1,
-        6,
-        20,
-        21,
-        25
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "Sep 7, 2026",
-      "nums": [
-        13,
-        19,
-        31,
-        36,
+        11,
+        15,
+        17,
+        22,
         38
       ],
       "spec": null,
       "jackpot": ""
     },
-    {
-      "date": "Sep 6, 2026",
-      "nums": [
-        2,
-        14,
-        19,
-        30,
-        31
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "Sep 5, 2026",
-      "nums": [
-        2,
-        12,
-        15,
-        17,
-        21
-      ],
-      "spec": null,
-      "jackpot": ""
-    }
-  ],
-  "ny_lotto": [
     {
       "date": "Sep 19, 2026",
       "nums": [
@@ -852,22 +865,33 @@
       ],
       "spec": null,
       "jackpot": ""
-    },
-    {
-      "date": "Jul 15, 2026",
-      "nums": [
-        17,
-        20,
-        21,
-        35,
-        37,
-        53
-      ],
-      "spec": null,
-      "jackpot": ""
     }
   ],
   "lottoamerica": [
+    {
+      "date": "Sep 23, 2026",
+      "nums": [
+        13,
+        24,
+        32,
+        41,
+        48
+      ],
+      "spec": 5,
+      "jackpot": ""
+    },
+    {
+      "date": "Sep 21, 2026",
+      "nums": [
+        22,
+        23,
+        33,
+        45,
+        49
+      ],
+      "spec": 9,
+      "jackpot": ""
+    },
     {
       "date": "Sep 19, 2026",
       "nums": [
@@ -1023,33 +1047,45 @@
       ],
       "spec": 4,
       "jackpot": ""
-    },
-    {
-      "date": "Aug 19, 2026",
-      "nums": [
-        23,
-        31,
-        40,
-        41,
-        45
-      ],
-      "spec": 1,
-      "jackpot": ""
-    },
-    {
-      "date": "Aug 17, 2026",
-      "nums": [
-        5,
-        8,
-        10,
-        24,
-        27
-      ],
-      "spec": 4,
-      "jackpot": ""
     }
   ],
   "millionaireforlife": [
+    {
+      "date": "Sep 23, 2026",
+      "nums": [
+        11,
+        13,
+        17,
+        20,
+        52
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
+      "date": "Sep 22, 2026",
+      "nums": [
+        4,
+        21,
+        23,
+        32,
+        51
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
+      "date": "Sep 21, 2026",
+      "nums": [
+        7,
+        14,
+        40,
+        44,
+        51
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
     {
       "date": "Sep 20, 2026",
       "nums": [
@@ -1253,47 +1289,47 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Sep 3, 2026",
-      "nums": [
-        1,
-        10,
-        23,
-        29,
-        33
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
-    },
-    {
-      "date": "Sep 2, 2026",
-      "nums": [
-        7,
-        23,
-        43,
-        46,
-        53
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
-    },
-    {
-      "date": "Sep 1, 2026",
-      "nums": [
-        16,
-        37,
-        45,
-        55,
-        58
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-09-21T08:33:51Z",
+  "_updated": "2026-09-24T08:07:23Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Sep 23, 2026",
+      "nums": [
+        14,
+        21
+      ],
+      "spec": [
+        18,
+        24
+      ],
+      "jackpot": "$22K"
+    },
+    {
+      "date": "Sep 22, 2026",
+      "nums": [
+        10,
+        13
+      ],
+      "spec": [
+        1,
+        14
+      ],
+      "jackpot": "$22K"
+    },
+    {
+      "date": "Sep 21, 2026",
+      "nums": [
+        5,
+        19
+      ],
+      "spec": [
+        9,
+        13
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Sep 20, 2026",
       "nums": [
@@ -1435,42 +1471,6 @@
       "spec": [
         13,
         18
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Sep 8, 2026",
-      "nums": [
-        20,
-        25
-      ],
-      "spec": [
-        2,
-        24
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Sep 7, 2026",
-      "nums": [
-        13,
-        16
-      ],
-      "spec": [
-        14,
-        24
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Sep 6, 2026",
-      "nums": [
-        7,
-        18
-      ],
-      "spec": [
-        5,
-        22
       ],
       "jackpot": "$22K"
     }
