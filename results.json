@@ -869,6 +869,18 @@
   ],
   "lottoamerica": [
     {
+      "date": "Oct 7, 2026",
+      "nums": [
+        7,
+        10,
+        19,
+        20,
+        43
+      ],
+      "spec": 3,
+      "jackpot": ""
+    },
+    {
       "date": "Oct 5, 2026",
       "nums": [
         1,
@@ -1034,18 +1046,6 @@
         44
       ],
       "spec": 3,
-      "jackpot": ""
-    },
-    {
-      "date": "Sep 2, 2026",
-      "nums": [
-        2,
-        4,
-        16,
-        39,
-        45
-      ],
-      "spec": 6,
       "jackpot": ""
     }
   ],
@@ -1291,9 +1291,21 @@
       "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-10-07T09:47:22Z",
+  "_updated": "2026-10-08T09:58:04Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Oct 7, 2026",
+      "nums": [
+        3,
+        5
+      ],
+      "spec": [
+        8,
+        26
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Oct 6, 2026",
       "nums": [
@@ -1459,18 +1471,6 @@
       "spec": [
         18,
         24
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Sep 22, 2026",
-      "nums": [
-        10,
-        13
-      ],
-      "spec": [
-        1,
-        14
       ],
       "jackpot": "$22K"
     }
