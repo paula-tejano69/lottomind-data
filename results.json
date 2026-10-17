@@ -243,6 +243,18 @@
   ],
   "megamillions": [
     {
+      "date": "Oct 16, 2026",
+      "nums": [
+        2,
+        15,
+        31,
+        41,
+        68
+      ],
+      "spec": 11,
+      "jackpot": ""
+    },
+    {
       "date": "Oct 13, 2026",
       "nums": [
         11,
@@ -409,21 +421,21 @@
       ],
       "spec": 2,
       "jackpot": ""
-    },
-    {
-      "date": "Aug 25, 2026",
-      "nums": [
-        7,
-        10,
-        47,
-        48,
-        50
-      ],
-      "spec": 14,
-      "jackpot": ""
     }
   ],
   "ny_take5": [
+    {
+      "date": "Oct 15, 2026",
+      "nums": [
+        2,
+        5,
+        18,
+        22,
+        35
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
     {
       "date": "Oct 14, 2026",
       "nums": [
@@ -588,18 +600,6 @@
         32,
         35,
         36
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "Sep 30, 2026",
-      "nums": [
-        7,
-        24,
-        25,
-        37,
-        39
       ],
       "spec": null,
       "jackpot": ""
@@ -1051,6 +1051,18 @@
   ],
   "millionaireforlife": [
     {
+      "date": "Oct 15, 2026",
+      "nums": [
+        14,
+        16,
+        21,
+        51,
+        53
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
       "date": "Oct 14, 2026",
       "nums": [
         13,
@@ -1277,23 +1289,35 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Sep 25, 2026",
-      "nums": [
-        11,
-        15,
-        22,
-        50,
-        53
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-10-15T07:59:04Z",
+  "_updated": "2026-10-17T07:30:36Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Oct 16, 2026",
+      "nums": [
+        14,
+        24
+      ],
+      "spec": [
+        6,
+        20
+      ],
+      "jackpot": "$22K"
+    },
+    {
+      "date": "Oct 15, 2026",
+      "nums": [
+        3,
+        10
+      ],
+      "spec": [
+        2,
+        14
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Oct 14, 2026",
       "nums": [
@@ -1447,30 +1471,6 @@
       "spec": [
         15,
         18
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Oct 1, 2026",
-      "nums": [
-        2,
-        4
-      ],
-      "spec": [
-        7,
-        13
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Sep 30, 2026",
-      "nums": [
-        6,
-        20
-      ],
-      "spec": [
-        3,
-        10
       ],
       "jackpot": "$22K"
     }
