@@ -1,6 +1,18 @@
 {
   "powerball": [
     {
+      "date": "Oct 17, 2026",
+      "nums": [
+        12,
+        13,
+        24,
+        32,
+        35
+      ],
+      "spec": 11,
+      "jackpot": ""
+    },
+    {
       "date": "Oct 14, 2026",
       "nums": [
         3,
@@ -227,18 +239,6 @@
       ],
       "spec": 14,
       "jackpot": ""
-    },
-    {
-      "date": "Aug 31, 2026",
-      "nums": [
-        11,
-        17,
-        25,
-        37,
-        49
-      ],
-      "spec": 10,
-      "jackpot": ""
     }
   ],
   "megamillions": [
@@ -425,6 +425,30 @@
   ],
   "ny_take5": [
     {
+      "date": "Oct 17, 2026",
+      "nums": [
+        21,
+        27,
+        28,
+        29,
+        30
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
+      "date": "Oct 16, 2026",
+      "nums": [
+        5,
+        9,
+        14,
+        18,
+        24
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
+    {
       "date": "Oct 15, 2026",
       "nums": [
         2,
@@ -579,33 +603,22 @@
       ],
       "spec": null,
       "jackpot": ""
-    },
-    {
-      "date": "Oct 2, 2026",
-      "nums": [
-        3,
-        7,
-        13,
-        25,
-        29
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "Oct 1, 2026",
-      "nums": [
-        19,
-        24,
-        32,
-        35,
-        36
-      ],
-      "spec": null,
-      "jackpot": ""
     }
   ],
   "ny_lotto": [
+    {
+      "date": "Oct 17, 2026",
+      "nums": [
+        20,
+        21,
+        32,
+        44,
+        46,
+        56
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
     {
       "date": "Oct 14, 2026",
       "nums": [
@@ -852,22 +865,21 @@
       ],
       "spec": null,
       "jackpot": ""
-    },
-    {
-      "date": "Aug 8, 2026",
-      "nums": [
-        2,
-        9,
-        24,
-        26,
-        28,
-        35
-      ],
-      "spec": null,
-      "jackpot": ""
     }
   ],
   "lottoamerica": [
+    {
+      "date": "Oct 17, 2026",
+      "nums": [
+        32,
+        39,
+        41,
+        45,
+        52
+      ],
+      "spec": 2,
+      "jackpot": ""
+    },
     {
       "date": "Oct 14, 2026",
       "nums": [
@@ -1035,21 +1047,33 @@
       ],
       "spec": 8,
       "jackpot": ""
-    },
-    {
-      "date": "Sep 12, 2026",
-      "nums": [
-        2,
-        8,
-        15,
-        43,
-        52
-      ],
-      "spec": 9,
-      "jackpot": ""
     }
   ],
   "millionaireforlife": [
+    {
+      "date": "Oct 17, 2026",
+      "nums": [
+        15,
+        27,
+        41,
+        48,
+        55
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
+      "date": "Oct 16, 2026",
+      "nums": [
+        2,
+        3,
+        32,
+        44,
+        56
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
     {
       "date": "Oct 15, 2026",
       "nums": [
@@ -1265,35 +1289,23 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Sep 27, 2026",
-      "nums": [
-        24,
-        25,
-        30,
-        35,
-        47
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
-    },
-    {
-      "date": "Sep 26, 2026",
-      "nums": [
-        19,
-        27,
-        34,
-        35,
-        50
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-10-17T07:30:36Z",
+  "_updated": "2026-10-18T07:45:35Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
+    {
+      "date": "Oct 17, 2026",
+      "nums": [
+        13,
+        21
+      ],
+      "spec": [
+        2,
+        19
+      ],
+      "jackpot": "$22K"
+    },
     {
       "date": "Oct 16, 2026",
       "nums": [
@@ -1459,18 +1471,6 @@
       "spec": [
         5,
         6
-      ],
-      "jackpot": "$22K"
-    },
-    {
-      "date": "Oct 2, 2026",
-      "nums": [
-        16,
-        19
-      ],
-      "spec": [
-        15,
-        18
       ],
       "jackpot": "$22K"
     }
