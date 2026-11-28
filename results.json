@@ -243,6 +243,18 @@
   ],
   "megamillions": [
     {
+      "date": "Nov 27, 2026",
+      "nums": [
+        8,
+        16,
+        18,
+        33,
+        48
+      ],
+      "spec": 19,
+      "jackpot": ""
+    },
+    {
       "date": "Nov 24, 2026",
       "nums": [
         38,
@@ -409,21 +421,21 @@
       ],
       "spec": 8,
       "jackpot": ""
-    },
-    {
-      "date": "Oct 6, 2026",
-      "nums": [
-        26,
-        32,
-        42,
-        51,
-        54
-      ],
-      "spec": 22,
-      "jackpot": ""
     }
   ],
   "ny_take5": [
+    {
+      "date": "Nov 27, 2026",
+      "nums": [
+        4,
+        8,
+        10,
+        11,
+        38
+      ],
+      "spec": null,
+      "jackpot": ""
+    },
     {
       "date": "Nov 26, 2026",
       "nums": [
@@ -588,18 +600,6 @@
         31,
         37,
         39
-      ],
-      "spec": null,
-      "jackpot": ""
-    },
-    {
-      "date": "Nov 12, 2026",
-      "nums": [
-        9,
-        13,
-        14,
-        21,
-        33
       ],
       "spec": null,
       "jackpot": ""
@@ -1051,6 +1051,18 @@
   ],
   "millionaireforlife": [
     {
+      "date": "Nov 27, 2026",
+      "nums": [
+        11,
+        22,
+        31,
+        34,
+        51
+      ],
+      "spec": null,
+      "jackpot": "$1M/year"
+    },
+    {
       "date": "Nov 26, 2026",
       "nums": [
         11,
@@ -1277,21 +1289,9 @@
       ],
       "spec": null,
       "jackpot": "$1M/year"
-    },
-    {
-      "date": "Nov 7, 2026",
-      "nums": [
-        12,
-        14,
-        16,
-        29,
-        37
-      ],
-      "spec": null,
-      "jackpot": "$1M/year"
     }
   ],
-  "_updated": "2026-11-27T11:45:00Z",
+  "_updated": "2026-11-28T11:20:22Z",
   "_source": "GitHub Actions \u2014 v8 with nosyapi",
   "2by2": [
     {
